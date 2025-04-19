@@ -1,12 +1,12 @@
 
 
-import {AppRoot} from "./AppRoot.jsx";
+import {AppRoutes} from "./AppRoutes.jsx";
 
 function App() {
 
   return (
       <>
-          <AppRoot/>
+          <AppRoutes/>
       </>
 
   )

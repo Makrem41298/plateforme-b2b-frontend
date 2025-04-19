@@ -1,0 +1,58 @@
+/* Updated CSS */
+.hamburgerBtn {
+    display: none;
+    order: 1; /* Default order for mobile */
+}
+.sideBar{
+    height: 100vh;
+}
+body{
+
+    overflow: hidden;
+}
+@media screen and (max-width: 768px ) {
+    .hamburgerBtn {
+        display: block;
+        order: -1 !important; /* Force left position in medium screens */
+    }
+
+    .headerSide {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+    }
+
+    .inputSide {
+        width: 40%;
+        order: 2; /* Places input in the middle */
+    }
+
+    .right-aligned-container { /* Add this class to the right-aligned div */
+        order: 3; /* Places notification/avatar on the right */
+    }
+
+    .sideBar {
+        display: none;
+    }
+
+    .containerSide {
+        display: flex;
+        flex-direction: row;
+    }
+}
+
+@media screen and (max-width: 460px) {
+    .headerSide {
+        flex-direction: column-reverse;
+    }
+
+    .inputSide {
+        width: 100%;
+        order: initial;
+    }
+
+    .hamburgerBtn {
+        order: initial; /* Reset order for smallest screens */
+        margin-right: auto; /* Align left in column layout */
+    }
+}
