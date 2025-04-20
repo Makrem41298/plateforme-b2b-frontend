@@ -1,12 +1,16 @@
 
 
 import {AppRoutes} from "./AppRoutes.jsx";
+import {AuthClientProvider} from "./services/AuthContext.jsx";
 
 function App() {
 
   return (
       <>
-          <AppRoutes/>
+          <AuthClientProvider>
+              <AppRoutes/>
+
+          </AuthClientProvider>
       </>
 
   )
