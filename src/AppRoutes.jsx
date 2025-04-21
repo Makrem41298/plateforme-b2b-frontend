@@ -28,44 +28,49 @@ import Setting from "./pages/Setting/SettingsPage.jsx";
 import SettingsPage from "./pages/Setting/SettingsPage.jsx";
 import VerificationEmail from "./Auth/VerificationEmail.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
+import {routes} from "./routesName.js";
 
 export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
                 <Route path="/" element={<Layouts />}>
-                    <Route path="dashboard" element={<Dashboard />} />
-                    <Route path="projects" element={<ListProjectEntreprise />} />
-                    <Route path="contract" element={<TabContract />} />
-                    <Route path="inbox" element={<TabInBox />} />
-                    <Route path="offer" element={<TabOffer />} />
-                    <Route path="transaction" element={<TabTransaction />} />
-                    <Route path="withdraw" element={<Withdraw />} />
-                    <Route path="projects/description-project" element={<DescriptionProject />} />
-                    <Route path="mes-projects" element={<ListProjectClient/>} />
+                    <Route path={routes.entreprise.dashboard} element={<Dashboard />} />
+                    <Route path={routes.entreprise.projects} element={<ListProjectEntreprise />} />
+                    <Route path={routes.entreprise.contract} element={<TabContract />} />
+                    <Route path={routes.entreprise.inbox} element={<TabInBox />} />
+                    <Route path={routes.entreprise.offer} element={<TabOffer />} />
+                    <Route path={routes.entreprise.transaction} element={<TabTransaction />} />
+                    <Route path={routes.entreprise.withdraw} element={<Withdraw />} />
+                    <Route path={routes.entreprise.projectDescription} element={<DescriptionProject />} />
+                    <Route path={routes.entreprise.createOffer} element={<CreateOffer />} />
+                    <Route path={routes.entreprise.conversation} element={<Conversation />} />
+                    <Route path={routes.entreprise.createContract} element={<CreationContract />} />
+                    <Route path={routes.entreprise.profile} element={<EditProfilEntroprise />} />
+                    <Route path={routes.entreprise.settings} element={<SettingsPage />} />
 
-                    <Route path="offer/Create-offer" element={<CreateOffer/>} />
-                    <Route path="inbox/Conversation" element={<Conversation />} />
-                    <Route path="project/creation" element={<CreationProject/>} />
-                    <Route path="/contract/creation" element={<CreationContract/>} />
-                    <Route path="my-profile" element={<EditProfilEntroprise/>} />
-                    <Route path="settings" element={<SettingsPage/>}/>
-
+                    <Route path={routes.client.dashboard} element={<Dashboard />} />
+                    <Route path={routes.client.mesProjects} element={<ListProjectClient />} />
+                    <Route path={routes.client.contract} element={<TabContract />} />
+                    <Route path={routes.client.inbox} element={<TabInBox />} />
+                    <Route path={routes.client.offer} element={<TabOffer />} />
+                    <Route path={routes.client.transaction} element={<TabTransaction />} />
+                    <Route path={routes.client.projectDescription} element={<DescriptionProject />} />
+                    <Route path={routes.client.conversation} element={<Conversation />} />
+                    <Route path={routes.client.createProject} element={<CreationProject />} />
+                    <Route path={routes.client.profile} element={<EditProfilEntroprise />} />
+                    <Route path={routes.client.settings} element={<SettingsPage />} />
                 </Route>
-            <Route path="select-user" element={<SelectUser/>} />
-                <Route path="/login/entreprise" element={<LoginEnterprise/>} />
-                <Route path="/login/client" element={<LoginClient/>} />
-                <Route path="/entreprise/creation-account" element={<CreateAccountEnterprise/>} />
-                <Route path="client/creation-account" element={<CreateAccountClient/>} />
-                <Route path="/entreprise/forget-password" element={<ForgetPasswordEnterprise/>} />
-                <Route path="/client/forget-password" element={<ForgetPasswordClient/>} />
-                <Route path="/verification-email" element={<VerificationEmail/>} />
-                <Route path="*" element={<PageNotFound/>} />
 
-
-
-
-
+                <Route path={routes.selectUser.path} element={<SelectUser />} />
+                <Route path={routes.loginEnterprise.path} element={<LoginEnterprise />} />
+                <Route path={routes.createAccountEnterprise.path} element={<CreateAccountEnterprise />} />
+                <Route path={routes.forgetPasswordEnterprise.path} element={<ForgetPasswordEnterprise />} />
+                <Route path={routes.loginClient.path} element={<LoginClient />} />
+                <Route path={routes.createAccountClient.path} element={<CreateAccountClient />} />
+                <Route path={routes.forgetPasswordClient.path} element={<ForgetPasswordClient />} />
+                <Route path={routes.verificationEmail.path} element={<VerificationEmail />} />
+                <Route path={routes.notFound.path} element={<PageNotFound />} />
 
             </Routes>
         </BrowserRouter>

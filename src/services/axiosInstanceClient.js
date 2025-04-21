@@ -11,7 +11,6 @@ const axiosInstanceClient = axios.create({
      (req)=>{
          if (localStorage.getItem('token_client')) {
              req.headers.Authorization = `Bearer ${localStorage.getItem('token_client')}`
-             console.log(req.headers);
          }
          return req;
      }
@@ -22,10 +21,14 @@ const axiosInstanceClient = axios.create({
 
         (error)=>{
             console.log(error)
-            if(error.code == "ERR_NETWORK"){
-                Swal.fire('network error')
+            if (error.code === "ERR_NETWORK") {
+                Swal.fire('Network error');
                 return;
-            }else if (error.response.status == 404){
+            } else if (error.code === "ECONNABORTED") {
+                Swal.fire('Request timeout. Please try again.');
+                return;
+            }
+            else if (error.response.status == 404){
                 Swal.fire('Api not found')
                 return;
             }

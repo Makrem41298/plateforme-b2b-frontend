@@ -1,10 +1,10 @@
 import React, {useContext, useState} from 'react'
 import { Link } from 'react-router-dom';
-import { AuthContext} from "../../services/AuthContext.jsx";
+import { AuthClientContext} from "../../services/AuthClientContext.jsx";
 
 const LoginClient = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
-    const { login } = useContext(AuthContext);
+    const { login } = useContext(AuthClientContext);
 
     const handleSubmit = async (e) => {
         e.preventDefault();

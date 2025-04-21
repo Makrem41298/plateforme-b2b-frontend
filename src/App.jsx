@@ -1,7 +1,7 @@
 
 
 import {AppRoutes} from "./AppRoutes.jsx";
-import {AuthClientProvider} from "./services/AuthContext.jsx";
+import {AuthClientProvider} from "./services/AuthClientContext.jsx";
 
 function App() {
 

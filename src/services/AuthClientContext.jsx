@@ -1,13 +1,12 @@
 import { createContext, useState, useEffect } from 'react';
 import axiosInstanceClient from "./axiosInstanceClient.js";
 
-export const AuthContext = createContext();
+export const AuthClientContext = createContext();
 
 export const AuthClientProvider = ({ children }) => {
     const [token, setToken] = useState(localStorage.getItem("token_client"))
     const [user, setUser] = useState(null);
 
-    // Ajout d'un effet pour charger les infos utilisateur au montage
     useEffect(() => {
         if (token) meClient();
     }, []);
@@ -31,9 +30,9 @@ export const AuthClientProvider = ({ children }) => {
     const meClient = async () => {
         try {
             const response = await axiosInstanceClient.get('/auth/client/me');
-            console.log(response);
             setUser(response.data);
         } catch(error) {
+            localStorage.removeItem('token_client');
             console.log("Fetch user error", error);
         }
     }
@@ -41,8 +40,8 @@ export const AuthClientProvider = ({ children }) => {
 
 
     return (
-        <AuthContext.Provider value={{ token, user, login}}>
+        <AuthClientContext.Provider value={{ token, user, login}}>
             {children}
-        </AuthContext.Provider>
+        </AuthClientContext.Provider>
     )
 }
