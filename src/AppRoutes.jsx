@@ -29,44 +29,53 @@ import SettingsPage from "./pages/Setting/SettingsPage.jsx";
 import VerificationEmail from "./Auth/VerificationEmail.jsx";
 import PageNotFound from "./pages/PageNotFound.jsx";
 import {routes} from "./routesName.js";
+import {AuthEntrepriseProvider} from "./services/AuthEnterpriseContext.jsx";
+import {AuthClientProvider} from "./services/AuthClientContext.jsx";
 
 export const AppRoutes = () => {
     return (
         <BrowserRouter>
             <Routes>
-                <Route path="/" element={<Layouts />}>
-                    <Route path={routes.entreprise.dashboard} element={<Dashboard />} />
-                    <Route path={routes.entreprise.projects} element={<ListProjectEntreprise />} />
-                    <Route path={routes.entreprise.contract} element={<TabContract />} />
-                    <Route path={routes.entreprise.inbox} element={<TabInBox />} />
-                    <Route path={routes.entreprise.offer} element={<TabOffer />} />
-                    <Route path={routes.entreprise.transaction} element={<TabTransaction />} />
-                    <Route path={routes.entreprise.withdraw} element={<Withdraw />} />
-                    <Route path={routes.entreprise.projectDescription} element={<DescriptionProject />} />
-                    <Route path={routes.entreprise.createOffer} element={<CreateOffer />} />
-                    <Route path={routes.entreprise.conversation} element={<Conversation />} />
-                    <Route path={routes.entreprise.createContract} element={<CreationContract />} />
-                    <Route path={routes.entreprise.profile} element={<EditProfilEntroprise />} />
-                    <Route path={routes.entreprise.settings} element={<SettingsPage />} />
 
-                    <Route path={routes.client.dashboard} element={<Dashboard />} />
-                    <Route path={routes.client.mesProjects} element={<ListProjectClient />} />
-                    <Route path={routes.client.contract} element={<TabContract />} />
-                    <Route path={routes.client.inbox} element={<TabInBox />} />
-                    <Route path={routes.client.offer} element={<TabOffer />} />
-                    <Route path={routes.client.transaction} element={<TabTransaction />} />
-                    <Route path={routes.client.projectDescription} element={<DescriptionProject />} />
-                    <Route path={routes.client.conversation} element={<Conversation />} />
-                    <Route path={routes.client.createProject} element={<CreationProject />} />
-                    <Route path={routes.client.profile} element={<EditProfilEntroprise />} />
-                    <Route path={routes.client.settings} element={<SettingsPage />} />
-                </Route>
+                <Route path={'/'} element={<AuthEntrepriseProvider><Layouts /></AuthEntrepriseProvider>}>
+                            <Route path={routes.entreprise.dashboard} element={<Dashboard />} />
+                            <Route path={routes.entreprise.projects} element={<ListProjectEntreprise />} />
+                            <Route path={routes.entreprise.contract} element={<TabContract />} />
+                            <Route path={routes.entreprise.inbox} element={<TabInBox />} />
+                            <Route path={routes.entreprise.offer} element={<TabOffer />} />
+                            <Route path={routes.entreprise.transaction} element={<TabTransaction />} />
+                            <Route path={routes.entreprise.withdraw} element={<Withdraw />} />
+                            <Route path={routes.entreprise.projectDescription} element={<DescriptionProject />} />
+                            <Route path={routes.entreprise.createOffer} element={<CreateOffer />} />
+                            <Route path={routes.entreprise.conversation} element={<Conversation />} />
+                            <Route path={routes.entreprise.createContract} element={<CreationContract />} />
+                            <Route path={routes.entreprise.profile} element={<EditProfilEntroprise />} />
+                            <Route path={routes.entreprise.settings} element={<SettingsPage />} />
+
+                        </Route>
+                        <Route  path={'/'}  element={<AuthClientProvider><Layouts /></AuthClientProvider>}>
+
+                            <Route path={routes.client.dashboard} element={<Dashboard />} />
+                            <Route path={routes.client.mesProjects} element={<ListProjectClient />} />
+                            <Route path={routes.client.contract} element={<TabContract />} />
+                            <Route path={routes.client.inbox} element={<TabInBox />} />
+                            <Route path={routes.client.offer} element={<TabOffer />} />
+                            <Route path={routes.client.transaction} element={<TabTransaction />} />
+                            <Route path={routes.client.projectDescription} element={<DescriptionProject />} />
+                            <Route path={routes.client.conversation} element={<Conversation />} />
+                            <Route path={routes.client.createProject} element={<CreationProject />} />
+                            <Route path={routes.client.profile} element={<EditProfilEntroprise />} />
+                            <Route path={routes.client.settings} element={<SettingsPage />} />
+
+                         </Route>
+
+
+                <Route path={routes.loginEnterprise.path} element={<AuthEntrepriseProvider><LoginEnterprise /></AuthEntrepriseProvider>} />
+                <Route path={routes.loginClient.path} element={<AuthClientProvider><LoginClient/></AuthClientProvider>} />
 
                 <Route path={routes.selectUser.path} element={<SelectUser />} />
-                <Route path={routes.loginEnterprise.path} element={<LoginEnterprise />} />
                 <Route path={routes.createAccountEnterprise.path} element={<CreateAccountEnterprise />} />
                 <Route path={routes.forgetPasswordEnterprise.path} element={<ForgetPasswordEnterprise />} />
-                <Route path={routes.loginClient.path} element={<LoginClient />} />
                 <Route path={routes.createAccountClient.path} element={<CreateAccountClient />} />
                 <Route path={routes.forgetPasswordClient.path} element={<ForgetPasswordClient />} />
                 <Route path={routes.verificationEmail.path} element={<VerificationEmail />} />

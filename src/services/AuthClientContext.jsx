@@ -1,5 +1,5 @@
 import { createContext, useState, useEffect } from 'react';
-import axiosInstanceClient from "./axiosInstanceClient.js";
+import axiosInstanceClient from "./axiosInstanceClient";
 
 export const AuthClientContext = createContext();
 
@@ -14,7 +14,7 @@ export const AuthClientProvider = ({ children }) => {
     const login = async (credentials) => {
         try {
             const response = await axiosInstanceClient.post('/auth/client/login', credentials);
-            const { access_token } = response
+            const { access_token } = response;
 
             localStorage.setItem('token_client', access_token)
             setToken(access_token);
@@ -31,13 +31,12 @@ export const AuthClientProvider = ({ children }) => {
         try {
             const response = await axiosInstanceClient.get('/auth/client/me');
             setUser(response.data);
+            console.log(response.data);
         } catch(error) {
             localStorage.removeItem('token_client');
             console.log("Fetch user error", error);
         }
     }
-
-
 
     return (
         <AuthClientContext.Provider value={{ token, user, login}}>
