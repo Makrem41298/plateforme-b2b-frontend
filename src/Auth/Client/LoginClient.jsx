@@ -1,15 +1,18 @@
 import React, {useContext, useState} from 'react'
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import { AuthClientContext} from "../../services/AuthClientContext.jsx";
+import {routes} from "../../routesName.js";
 
 const LoginClient = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const { login } = useContext(AuthClientContext);
+    const  navigate=useNavigate()
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const success = await login(credentials);
-        console.log(success)
+            if (success)    navigate(routes.client.dashboard)
+
     }
 
     const handleChange = (e) => {

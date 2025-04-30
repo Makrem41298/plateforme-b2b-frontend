@@ -1,18 +1,17 @@
-
-
-import {AppRoutes} from "./AppRoutes.jsx";
-import {AuthClientProvider} from "./services/AuthClientContext.jsx";
-import {AuthEntrepriseProvider} from "./services/AuthEnterpriseContext.jsx";
+import { AppRoutes } from "./AppRoutes.jsx"
+import { AuthClientProvider } from "./services/AuthClientContext.jsx"
+import { AuthEntrepriseProvider } from "./services/AuthEnterpriseContext.jsx"
 
 function App() {
-
-  return (
-      <>
-                 <AppRoutes/>
-
-      </>
-
-  )
+    return (
+        <AuthClientProvider>
+            <AuthEntrepriseProvider>
+                <div className="app-container">
+                    <AppRoutes />
+                </div>
+            </AuthEntrepriseProvider>
+        </AuthClientProvider>
+    )
 }
 
 export default App

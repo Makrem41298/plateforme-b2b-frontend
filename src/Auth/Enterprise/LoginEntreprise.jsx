@@ -1,17 +1,19 @@
 import React, {useContext, useEffect, useState} from 'react'
-import { Link } from 'react-router-dom';
+import {Link, useNavigate} from 'react-router-dom';
 import {AuthEnterpriseContext} from "../../services/AuthEnterpriseContext.jsx";
+import {routes} from "../../routesName.js";
 
 const LoginEnterprise = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
     const { login } = useContext(AuthEnterpriseContext);
-        useEffect(() => {
-            console.log("ok")
-        })
+    const  navigate=useNavigate()
+
+
     const handleSubmit = async (e) => {
-        e.preventDefault();
+        e.preventDefault()
         const success = await login(credentials);
-        console.log(success)
+
+        if (success)    navigate("/"+routes.entreprise.dashboard)
     }
 
     const handleChange = (e) => {

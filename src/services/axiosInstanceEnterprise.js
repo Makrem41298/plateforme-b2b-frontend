@@ -28,11 +28,11 @@ axiosInstanceEnterprise.interceptors.response.use(
             Swal.fire('Request timeout. Please try again.');
             return;
         }
-        else if (error.response.status == 404){
+        else if (error.response.status === 404){
             Swal.fire('Api not found')
             return;
         }
-        else if(error.response.status == 500){
+        else if(error.response.status === 500){
             Swal.fire('Server.error')
             return;
         }else if(error.response.data ){

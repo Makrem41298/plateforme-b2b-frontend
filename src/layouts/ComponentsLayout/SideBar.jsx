@@ -1,10 +1,11 @@
 import React from 'react'
 import HamburgerBtn from "../../components/Responsive/HamburgerBtn.jsx";
 import {NavLink} from "react-router-dom";
+import {routes} from "../../routesName.js";
 
 export const SideBar = () => {
     const menuEntreprise = [
-        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: 'dashboard' },
+        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: routes.client.offer },
         { name: 'Projets', icon: 'fas fa-clipboard-list w-5 mr-3', link: 'projects' },
         { name: 'Contrats', icon: 'fas fa-briefcase w-5 mr-3', link: 'contract' },
         { name: 'Inbox', icon: 'far fa-comment-dots w-5 mr-3', link: 'inbox' },
@@ -13,7 +14,7 @@ export const SideBar = () => {
         { name: 'Retrait', icon: 'fas fa-money-bill-transfer w-5 mr-3', link: 'withdraw' }
     ];
     const menuClient=[
-        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: 'dashboard' },
+        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: routes.client.dashboard },
         { name: ' MesProjets', icon: 'fas fa-clipboard-list w-5 mr-3', link:  'mes-projects' },
         { name: 'Inbox', icon: 'far fa-comment-dots w-5 mr-3', link:  'inbox' },
         { name: 'Transactions', icon: 'fas fa-receipt w-5 mr-3', link:  'transaction' },

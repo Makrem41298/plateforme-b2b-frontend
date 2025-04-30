@@ -1,13 +1,30 @@
-import React from 'react'
+import React, {useContext} from 'react'
+import axiosInstanceClient from "../../services/axiosInstanceClient.js";
+import {AuthClientContext} from "../../services/AuthClientContext.jsx";
+import {useNavigate} from "react-router-dom";
+import {routes} from "../../routesName.js";
 
-const VerificationEmail = () => {
+const VerificationEmailClient = () => {
+const {logout}=useContext(AuthClientContext)
+    const navigate = useNavigate();
+   const handelResendEmail=()=>{
+        axiosInstanceClient.post('/email/resend').then((response) => {
+            console.log(response);
+        }).catch((error) => {
+            console.log(error);
+        })
+
+    }
+    const handelLogout=()=>{
+        logout()
+        navigate(routes.loginClient.path);
+
+    }
+
     return (
         <div className="min-h-screen flex flex-col md:flex-row">
 
-
             <div className="flex-1 overflow-x-hidden">
-
-
                 <div className="p-4 md:p-10">
                     <div className="max-w-2xl mx-auto text-center">
                         <div className="bg-white rounded-xl shadow-sm p-8 md:p-12">
@@ -24,7 +41,7 @@ const VerificationEmail = () => {
                             </p>
 
                             <div className="space-y-4">
-                                <button className="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors">
+                                <button className="w-full md:w-auto px-6 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-colors" onClick={handelResendEmail}>
                                     <i className="fas fa-paper-plane mr-2"></i>Renvoyer l'email de vérification
                                 </button>
 
@@ -33,11 +50,9 @@ const VerificationEmail = () => {
                                     <a href="#" className="text-blue-500 hover:text-blue-700 ml-1">Se connecter</a>
                                 </div>
 
-                                <form method="POST" action="#" className="mt-4">
-                                    <button type="submit" className="text-red-500 hover:text-red-700 text-sm flex items-center justify-center w-full">
+                                    <button type="submit" className="text-red-500 hover:text-red-700 text-sm flex items-center justify-center w-full" onClick={handelLogout}>
                                         <i className="fas fa-sign-out-alt mr-2"></i>Déconnexion
                                     </button>
-                                </form>
                             </div>
                         </div>
 
@@ -48,4 +63,4 @@ const VerificationEmail = () => {
     )
 }
 
-export default VerificationEmail
+export default VerificationEmailClient
