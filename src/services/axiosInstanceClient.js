@@ -1,6 +1,6 @@
  import axios   from "axios";
  import Swal from "sweetalert2";
- import {routes} from "../routesName.js";
+ import {routes} from "../Routes/routesName.js";
 const axiosInstanceClient = axios.create({
     baseURL : 'http://localhost:8000/api',
     timeout : 10000,

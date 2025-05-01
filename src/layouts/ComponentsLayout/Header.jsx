@@ -4,7 +4,7 @@ import UserProfile from "../../components/UserProfile.jsx";
 import NotificationMenu from "../../components/NotificationMenu.jsx";
 import Search from "../../components/Search.jsx";
 
-export const Header = () => {
+export const Header = ({authType}) => {
     return (
         <div className="flex flex-col md:flex-row justify-between items-center px-4 md:px-6 py-3 bg-white shadow-sm gap-4 md:gap-0 headerSide">
 
@@ -17,7 +17,7 @@ export const Header = () => {
 
                 <NotificationMenu />
 
-                <UserProfile/>
+                <UserProfile authType={authType}/>
             </div>
 
 

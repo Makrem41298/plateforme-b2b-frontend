@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import {AuthEnterpriseContext} from "../../services/AuthEnterpriseContext.jsx";
-import {routes} from "../../routesName.js";
+import {routes} from "../../Routes/routesName.js";
 
 const LoginEnterprise = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -13,7 +13,7 @@ const LoginEnterprise = () => {
         e.preventDefault()
         const success = await login(credentials);
 
-        if (success)    navigate("/"+routes.entreprise.dashboard)
+        if (success)    navigate(routes.entreprise.dashboard)
     }
 
     const handleChange = (e) => {

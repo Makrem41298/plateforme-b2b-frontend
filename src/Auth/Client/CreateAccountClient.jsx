@@ -3,7 +3,7 @@ import { AuthClientContext } from "../../services/AuthClientContext.jsx";
 import { useForm } from "react-hook-form";
 import Swal from "sweetalert2";
 import {useContext} from "react";
-import {routes} from "../../routesName.js";
+import {routes} from "../../Routes/routesName.js";
 
 
 const CreateAccountClient = () => {
@@ -28,7 +28,7 @@ const CreateAccountClient = () => {
                     text: "Un email de vérification a été envoyé à votre adresse",
                     icon: "success"
                 });
-                navigate(routes.verificationEmail.path)
+                navigate(routes.verificationEmailClient.path)
             }
             else navigate(routes.createAccountClient.path)
 

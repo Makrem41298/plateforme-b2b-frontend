@@ -1,22 +1,25 @@
 import React, { useContext, useCallback, useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import { AuthClientContext } from "../../services/AuthClientContext.jsx";
 import { routes } from "../../Routes/routesName.js";
-import { resendEmailVerify } from "../../redux/resendEmailVerifySlice.js";
 import Swal from 'sweetalert2';
+import {AuthEnterpriseContext} from "../../services/AuthEnterpriseContext.jsx";
+import {resendVerifyEnterprise} from "../../redux/verificationEmail/resendVerifyEnterpriseSlice.js";
 
-const VerificationEmailClient = () => {
+const VerificationEmailEntreprise = () => {
+
+
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const { logoutClient,userClient} = useContext(AuthClientContext);
+    const { logoutEnterprise,userEnterprise: userEnterprise} = useContext(AuthEnterpriseContext);
 
 
-    const {status} = useSelector((state) => state.emailVerification);
+
+    const {status} = useSelector((state) => state.emailVerificationEnterprise);
 
     const handelResendEmail = useCallback(() => {
-        dispatch(resendEmailVerify())
-            .unwrap()
+
+        dispatch(resendVerifyEnterprise()).unwrap()
             .then(() => {
                 Swal.fire({
                     icon: 'success',
@@ -34,7 +37,9 @@ const VerificationEmailClient = () => {
             });
     }, [dispatch]);
 
+
     useEffect(() => {
+
         if (status === 'loading') {
             Swal.fire({
                 title: 'Envoi en cours...',
@@ -44,13 +49,15 @@ const VerificationEmailClient = () => {
         } else {
             Swal.close();
         }
-    }, [status]);
-    const handelLogout=()=>{
-        logoutClient().then(()=>{
-            navigate(routes.loginClient.path,{ replace: true });
-        })
+    }, );
 
-    }
+    const handleLogout = () => {
+        logoutEnterprise().then(() => {
+            navigate(routes.loginEnterprise.path, { replace: true });
+
+        })
+    };
+
 
 
 
@@ -68,8 +75,9 @@ const VerificationEmailClient = () => {
 
                             <h1 className="text-2xl font-semibold text-gray-800 mb-4">Vérifiez votre adresse email</h1>
                             <p className="text-gray-600 mb-6">
-                                Un lien de vérification a été envoyé à votre adresse email <span className="font-medium text-blue-500">{userClient?.email}</span>.
+                                Un lien de vérification a été envoyé à votre adresse email <span className="font-medium text-blue-500">{userEnterprise.email}</span>.
                                 Veuillez cliquer sur le lien pour activer votre compte.
+                                'emails envoyés' : 'email envoyé'
                             </p>
 
                             <div className="space-y-4">
@@ -93,7 +101,7 @@ const VerificationEmailClient = () => {
                                 <button
                                     type="submit"
                                     className="text-red-500 hover:text-red-700 text-sm flex items-center justify-center w-full"
-                                    onClick={handelLogout}
+                                    onClick={handleLogout}
                                 >
                                     <i className="fas fa-sign-out-alt mr-2"></i>Déconnexion
                                 </button>
@@ -106,4 +114,4 @@ const VerificationEmailClient = () => {
     )
 }
 
-export default VerificationEmailClient;
+export default VerificationEmailEntreprise;

@@ -41,7 +41,7 @@ axiosInstanceEnterprise.interceptors.response.use(
                     icon : 'warning',
                     toast : true,
                     showConfirmButton : false,
-                    position : 'bottom-end',
+                    position : 'top',
                     timer : 3000
                 })
 

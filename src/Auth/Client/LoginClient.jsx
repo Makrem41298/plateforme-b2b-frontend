@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import { AuthClientContext} from "../../services/AuthClientContext.jsx";
-import {routes} from "../../routesName.js";
+import {routes} from "../../Routes/routesName.js";
 
 const LoginClient = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });

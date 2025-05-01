@@ -1,17 +1,16 @@
 import { createContext, useState, useEffect } from 'react';
 import axiosInstanceClient from "./axiosInstanceClient";
-import Swal from "sweetalert2";
 
 export const AuthClientContext = createContext();
 export const AuthClientProvider = ({ children }) => {
     const [tokenClient, setTokenClient] = useState(localStorage.getItem("token_client"))
-    const [user, setUser] = useState(null);
+    const [userClient, setUserClient] = useState(null);
 
 
 
     useEffect(() => {
         if (tokenClient) {
-            console.log("welecom to",user);
+            console.log("welecom to",userClient);
             meClient();
         }
     }, [tokenClient]); // Add tokenClient as dependency to auto-fetch user on token change
@@ -35,7 +34,7 @@ export const AuthClientProvider = ({ children }) => {
     const meClient = async () => {
         try {
             const response = await axiosInstanceClient.get('/auth/client/me');
-            setUser(response.data);
+            setUserClient(response.data);
             console.log("Client user data:", response.data);
         } catch(error) {
             console.log("Fetch user error", error);
@@ -56,7 +55,7 @@ export const AuthClientProvider = ({ children }) => {
 
 
     }
-    const logout = async () => {
+    const logoutClient = async () => {
         try {
             await axiosInstanceClient.post('/auth/client/logout');
             restedValues()
@@ -67,7 +66,7 @@ export const AuthClientProvider = ({ children }) => {
 
     const restedValues = () => {
         setTokenClient(null);
-        setUser(null);
+        setUserClient(null);
         localStorage.removeItem('token_client');
 
     }
@@ -75,9 +74,9 @@ export const AuthClientProvider = ({ children }) => {
     return (
         <AuthClientContext.Provider value={{
            tokenClient,
-            user,
+            userClient,
             login,
-            logout ,
+            logoutClient ,
             registerForm,
             restedValues
         }}>

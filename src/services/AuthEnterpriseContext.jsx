@@ -6,7 +6,7 @@ export const AuthEnterpriseContext = createContext();
 export const AuthEntrepriseProvider = ({ children }) => {
 
     const [tokenEnterprise, setTokenEnterprise] = useState(localStorage.getItem("token_enterprise"))
-    const [user, setUser] = useState(null);
+    const [userEnterprise, setUserEnterprise] = useState(null);
 
     useEffect(() => {
         if (tokenEnterprise) {
@@ -33,26 +33,52 @@ export const AuthEntrepriseProvider = ({ children }) => {
     const meEntreprise = async () => {
         try {
             const response = await axiosInstanceEnterprise.get('/auth/entreprise/me');
-            setUser(response.data);
+            setUserEnterprise(response.data);
             console.log("User data set:", response.data);
         } catch(error) {
             console.log("Fetch user error", error);
-            logout();
+            restedValues();
         }
     }
+    const registerForm = async (credentials) => {
+        try {
+            const {email, password} = credentials;
+            await axiosInstanceEnterprise.post('/auth/entreprise/register', credentials)
+            login({email, password})
+            return true
+        }catch(error) {
+            console.log("Register error", error);
+            return false;
 
-    const logout = () => {
+        }
+
+
+    }
+    const logoutEnterprise= async ()=>{
+        try {
+            await axiosInstanceEnterprise.post('/auth/entreprise/logout');
+            restedValues()
+
+        }catch(error) {
+            console.log("Logout error", error);
+        }
+
+    }
+
+
+    const restedValues = () => {
         setTokenEnterprise(null);
-        setUser(null);
+        setUserEnterprise(null);
         localStorage.removeItem('token_enterprise');
     }
 
     return (
         <AuthEnterpriseContext.Provider value={{
             tokenEnterprise,
-            user,
+            userEnterprise,
             login,
-            logout
+             logoutEnterprise,
+            registerForm
         }}>
             {children}
         </AuthEnterpriseContext.Provider>

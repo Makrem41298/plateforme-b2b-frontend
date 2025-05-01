@@ -1,28 +1,14 @@
 import React from 'react'
-import HamburgerBtn from "../../components/Responsive/HamburgerBtn.jsx";
 import {NavLink} from "react-router-dom";
-import {routes} from "../../routesName.js";
+import {sideBar} from '/src/data.js'
 
-export const SideBar = () => {
-    const menuEntreprise = [
-        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: routes.client.offer },
-        { name: 'Projets', icon: 'fas fa-clipboard-list w-5 mr-3', link: 'projects' },
-        { name: 'Contrats', icon: 'fas fa-briefcase w-5 mr-3', link: 'contract' },
-        { name: 'Inbox', icon: 'far fa-comment-dots w-5 mr-3', link: 'inbox' },
-        { name: 'Mes Offres', icon: 'fas fa-bullhorn w-5 mr-3', link: 'offer' },
-        { name: 'Transactions', icon: 'fas fa-receipt w-5 mr-3', link: 'transaction' },
-        { name: 'Retrait', icon: 'fas fa-money-bill-transfer w-5 mr-3', link: 'withdraw' }
-    ];
-    const menuClient=[
-        { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: routes.client.dashboard },
-        { name: ' MesProjets', icon: 'fas fa-clipboard-list w-5 mr-3', link:  'mes-projects' },
-        { name: 'Inbox', icon: 'far fa-comment-dots w-5 mr-3', link:  'inbox' },
-        { name: 'Transactions', icon: 'fas fa-receipt w-5 mr-3', link:  'transaction' },
+export const SideBar = ({authType}) => {
 
-    ]
-    const auth='clientd'
-    const nav = auth === 'client' ?[...menuClient] :[...menuEntreprise]  ;
-    console.log(nav);
+
+
+    const nav = authType === 'Client' ?[...sideBar.menuClient] :(
+        authType === 'Enterprise' ?[...sideBar.menuEnterprise]:[...sideBar.menuEnterprise])
+
 
 
 

@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {
     Avatar,
     Box,
@@ -10,12 +10,28 @@ import {
 } from '@mui/material';
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore';
 import { useNavigate } from "react-router-dom";
+import {AuthEnterpriseContext} from "../services/AuthEnterpriseContext.jsx";
+import {AuthClientContext} from "../services/AuthClientContext.jsx";
+import {routes} from "../Routes/routesName.js";
 
-const UserProfile = () => {
+const UserProfile = ({authType}) => {
     const navigate = useNavigate();
     const [anchorEl, setAnchorEl] = useState(null);
+    const {logoutEnterprise,userEnterprise}=useContext(AuthEnterpriseContext)
+    const {logoutClient,userClient}=useContext(AuthClientContext)
+     const [userName, setUserName] = useState('');
     const open = Boolean(anchorEl);
+useEffect(() => {
 
+    if (authType === 'Enterprise') {
+
+        setUserName(userEnterprise?.name)
+    } else if (authType === 'Client') {
+
+        setUserName(userClient?.name)
+    }
+
+},[userEnterprise,userClient])
     const handleClick = (event) => {
         setAnchorEl(event.currentTarget);
     };
@@ -26,18 +42,33 @@ const UserProfile = () => {
 
     const handleProfileClick = () => {
         handleClose();
-        navigate("/my-profile");
-    };
+        if (authType === 'Enterprise') {
+            navigate(routes.entreprise.profile);
+
+        } else if (authType === 'Client') {
+            navigate(routes.client.profile);
+
+        }    };
 
     const handleSettingsClick = () => {
         handleClose();
-        navigate("/settings");
+        if (authType === 'Enterprise') {
+            navigate(routes.entreprise.settings);
+
+        } else if (authType === 'Client') {
+            navigate(routes.client.settings);
+
+        }
     };
 
     const handleLogout = () => {
         handleClose();
-        // Add your logout logic here
-        navigate("/login"); // Example logout navigation
+
+        if (authType === 'Enterprise') {
+            logoutEnterprise().then(() => navigate(routes.loginEnterprise.path));
+        } else if (authType === 'Client') {
+            logoutClient().then(() => navigate(routes.loginClient.path, { replace: true }));
+        }
     };
 
     return (
@@ -73,10 +104,10 @@ const UserProfile = () => {
                 />
                 <Box sx={{ textAlign: 'left', flexGrow: 1 }}>
                     <Typography variant="subtitle2" component="div" fontWeight={600}>
-                        Moni Roy
+                        {userName}
                     </Typography>
                     <Typography variant="caption" color="text.secondary">
-                        Enterprise
+                        {authType}
                     </Typography>
                 </Box>
                 <IconButton
