@@ -1,6 +1,7 @@
 import { createContext, useState, useEffect } from 'react';
 import axiosInstanceEnterprise from "./axiosInstanceEnterprise";
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const AuthEnterpriseContext = createContext();
 
 export const AuthEntrepriseProvider = ({ children }) => {

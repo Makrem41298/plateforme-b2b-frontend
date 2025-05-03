@@ -1,12 +1,11 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {verifyEmailApi} from "../../services/api/VerifyEmailApi.js";
-import {resendEmailVerify} from "../resendEmailVerifySlice.js";
+import {entrepriseApi} from "../../services/api.js";
 
 export const resendVerifyEnterprise = createAsyncThunk(
     'enterprise/resendEmailVerify',
     async ()=>{
         try {
-            const response= await verifyEmailApi.resendEmailVerifyEnterprise()
+            const response= await entrepriseApi.resendEmailVerifyEnterprise()
                 return response;
         }catch(error){
             console.error(error);
