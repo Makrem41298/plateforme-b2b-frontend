@@ -80,7 +80,7 @@ export const AppRoutes = () => {
                 <Route element={<RouteProtectClient/>} >
                     <Route path="/" element={ <Layouts authType="Client" />}>
                         <Route path={routes.client.dashboard} element={<Dashboard />} />
-                        <Route path={routes.client.mesProjects} element={<ListProjectClient />} />
+                        <Route path={routes.client.mesProjects} element={<ListProjectClient  authType="Client" />} />
                         <Route path={routes.client.contract} element={<TabContract />} />
                         <Route path={routes.client.inbox} element={<TabInBox />} />
                         <Route path={routes.client.offer} element={<TabOffer />} />

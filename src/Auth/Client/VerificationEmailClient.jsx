@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import { AuthClientContext } from "../../services/AuthClientContext.jsx";
 import { routes } from "../../Routes/routesName.js";
-import { resendEmailVerify } from "../../redux/resendEmailVerifySlice.js";
+import { resendEmailVerify } from "../../redux/resendEmailVerifyClientSlice.js";
 import Swal from 'sweetalert2';
 
 const VerificationEmailClient = () => {
