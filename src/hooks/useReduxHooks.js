@@ -1,5 +1,11 @@
 import {useDispatch, useSelector} from "react-redux";
-import {createProjet, deleteProject, getProjectsClient, updateProject} from "../redux/project/projectClientSlice.js";
+import {
+    clearProjectStatus,
+    createProjet,
+    deleteProject, getProjectClient,
+    getProjectsClient,
+    updateProject
+} from "../redux/project/projectClientSlice.js";
 
 export const useProject=()=>{
     const dispatch = useDispatch();
@@ -8,8 +14,9 @@ export const useProject=()=>{
         projects,
         status,
         error,
+        clearProjectStatus: () => dispatch(clearProjectStatus()),
         getProjects: (parmes)=>dispatch(getProjectsClient(parmes)),
-        getProject: ()=>dispatch(getProjectsClient),
+        getProject: (slug)=>dispatch(getProjectClient(slug)),
         createProject: (project)=>dispatch(createProjet(project)),
         updateProject: (slug,project)=>dispatch(updateProject(slug,project)),
         deleteProject: (slug)=>dispatch(deleteProject(slug)),

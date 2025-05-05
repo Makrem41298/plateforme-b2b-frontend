@@ -17,46 +17,35 @@ const axiosInstanceClient = axios.create({
      }
  )
 
-    axiosInstanceClient.interceptors.response.use(
-        (response) =>response.data,
+ axiosInstanceClient.interceptors.response.use(
+     (response) => response.data,
 
-        (error)=>{
-            console.log(error)
-            if (error.code === "ERR_NETWORK") {
-                Swal.fire('Network error');
-                return;
-            } else if (error.code === "ECONNABORTED") {
-                Swal.fire('Request timeout. Please try again.');
-                return;
-            }
-            else if (error.response.status === 404){
-                Swal.fire('Api not found')
-                return;
-            }
+     (error) => {
+         console.log(error);
 
+         if (error.code === "ERR_NETWORK") {
+             Swal.fire('Network error');
+         } else if (error.code === "ECONNABORTED") {
+             Swal.fire('Request timeout. Please try again.');
+         } else if (error.response?.status === 404) {
+             Swal.fire('API not found');
+         } else if (error.response?.status === 500) {
+             Swal.fire('Server error');
+         } else if (error.response?.data?.message) {
+             Swal.fire({
+                 title: error.response.data.message,
+                 icon: 'warning',
+                 toast: true,
+                 showConfirmButton: false,
+                 position: 'top',
+                 timer: 3000
+             });
+         }
 
-            else if(error.response.status === 500){
-                Swal.fire('Server.error')
-                return;
-            }else if(error.response.data ){
-                return  Promise.reject(
+         return Promise.reject(error.response.data);
+     }
+ );
 
-
-                    Swal.fire({
-                    title : error.response.data.message,
-                    icon : 'warning',
-                    toast : true,
-                    showConfirmButton : false,
-                    position : 'top',
-                    timer : 3000
-                })
-
-                )
-            }
-
-
-
-        })
  export default axiosInstanceClient;
 
 

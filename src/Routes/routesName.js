@@ -37,14 +37,14 @@ export const routes = {
     // Client routes
     client: {
         dashboard: "/client/dashboard",
-        mesProjects: "client/mes-projects",
+        mesProjects: "/client/mes-projects",
         projectDescription: "projects/description-project",
         contract: "client/contract",
         inbox: "client/inbox",
         conversation: "client/inbox/Conversation",
         offer: "client/offer",
         transaction: "client/transaction",
-        createProject: "client/project/creation",
+        createProject: "/client/project/creation",
         profile: "client/my-profile",
         settings: "client/settings",
         verificationClientPage: "/client/verification-email",

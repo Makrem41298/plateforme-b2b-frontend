@@ -1,9 +1,9 @@
-import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
 import { clientApi } from "../../services/api.js";
 
 // Helper function to handle API errors
 const handleApiError = (error, rejectWithValue) => {
-    console.error(error);
+    console.error("rejected",error);
     return rejectWithValue(error.response?.data || error.message);
 };
 
@@ -60,8 +60,8 @@ export const deleteProject = createAsyncThunk(
     'client/deleteProject',
     async (slug, { rejectWithValue }) => {
         try {
-            const response = await clientApi.deleteProjet(slug);
-            return response.data;
+           await clientApi.deleteProjet(slug);
+            return slug
         } catch (error) {
             return handleApiError(error, rejectWithValue);
         }
@@ -76,13 +76,15 @@ const projectSlice = createSlice({
         error: null,
     },
     reducers: {
-        clearProjectsError: (state) => {
+        clearProjectStatus: (state) => {
             state.error = null;
+            state.status = 'idle';
+
+
         }
     },
     extraReducers: (builder) => {
         builder
-            // Get All Projects
             .addCase(getProjectsClient.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
@@ -115,18 +117,22 @@ const projectSlice = createSlice({
                 state.error = action.payload;
             })
 
-            // Create Project
             .addCase(createProjet.pending, (state) => {
                 state.status = 'loading';
                 state.error = null;
             })
             .addCase(createProjet.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                state.items.push(action.payload);
+                if (Array.isArray(state.items)) {
+                    state.items.push(action.payload);
+                } else {
+                    state.items = [action.payload];
+                }
             })
             .addCase(createProjet.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+
             })
 
             // Update Project
@@ -148,19 +154,33 @@ const projectSlice = createSlice({
 
             // Delete Project
             .addCase(deleteProject.pending, (state) => {
+                console.log("Deleting project started...");
                 state.status = 'loading';
                 state.error = null;
             })
             .addCase(deleteProject.fulfilled, (state, action) => {
+                console.log("Project deleted successfully:", action.payload);
+
                 state.status = 'succeeded';
-                state.items = state.items.filter(project => project.slug !== action.payload.slug);
+                state.items.data = state.items.data.filter(
+                    project => project.slug !==action.payload // slug is passed via meta.arg
+                );
+                state.items.total -= 1;
+                state.items.to -= 1;
+                if (state.items.to === 0) {
+                    state.items.from=0
+
+                }
+
+
             })
             .addCase(deleteProject.rejected, (state, action) => {
+                console.log("Failed to delete project:", action.error.message);
                 state.status = 'failed';
                 state.error = action.payload;
             });
     }
 });
 
-export const { clearProjectsError } = projectSlice.actions;
+export const { clearProjectStatus } = projectSlice.actions;
 export default projectSlice.reducer;
