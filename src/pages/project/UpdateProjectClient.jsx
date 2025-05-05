@@ -1,40 +1,58 @@
 import React, { useState, useEffect } from 'react';
 import { useProject } from '../../hooks/useReduxHooks.js';
-import { useNavigate } from 'react-router-dom';
+import {useNavigate, useParams} from 'react-router-dom';
 import {routes} from "../../Routes/routesName.js";
 import Swal from "sweetalert2";
 
-const CreationProject = () => {
+const UpdateProjectClient = () => {
     const navigate = useNavigate();
-    const { createProject, status, error } = useProject();
+    const { getProject, status, error,projects ,updateProject} = useProject();
+    const {slug} = useParams();
 
-    // form state
     const [formData, setFormData] = useState({
-        titre: '',
+        titre:'',
         budget: '',
         Delai: '',
         type: '',
         description: ''
     });
 
-    // handle input changes
     const handleChange = e => {
         const { name, value } = e.target;
         setFormData(prev => ({ ...prev, [name]: value }));
     };
-    useEffect(() => {
-        if (status==="loading") {
+    const getProjectClient = async (slug, getProject) => {
+        try {
+           await getProject(slug).unwrap();
+
+        } catch (error) {
             Swal.fire({
-                title: "Loading...",
-                text: "Please wait",
-                allowOutsideClick: false,
-                didOpen: () => {
-                    Swal.showLoading();
-                },
+                icon: "error",
+                title: "Erreur",
+                text: error || "Une erreur est survenue !"
             });
         }
+    };
+    useEffect(() => {
+        getProjectClient(slug, getProject);
+    }, [slug]);
 
-    },[status])
+    useEffect(() => {
+        if (projects.length > 0) {
+            setFormData(prev => ({
+                ...prev,
+                titre: projects[0].titre || '',
+                budget: projects[0].budget || '',
+                type: projects[0].type || '',
+                Delai: projects[0].Delai || '',
+                description: projects[0].description || '',
+            }));
+        }
+    }, [projects]);
+
+
+
+
 
 
     const handleSubmit = async (e) => {
@@ -50,12 +68,12 @@ const CreationProject = () => {
         });
 
 
-            await createProject(formData).unwrap();
+            await updateProject(slug,formData).unwrap();
 
             Swal.fire({
                 icon: "success",
                 title: "Succès!",
-                text: "Projet créé avec succès.",
+                text: "Projet mise à jour avec succès.",
             });
             navigate(routes.client.mesProjects)
 
@@ -67,7 +85,7 @@ const CreationProject = () => {
     return (
         <div className="bg-gray-50 min-h-screen p-6 pb-20 flex items-center justify-center">
             <div className="w-full max-w-3xl border rounded-lg p-6 bg-white shadow-sm">
-                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Créer un nouveau projet</h2>
+                <h2 className="text-2xl font-semibold text-gray-800 mb-4">Update projet</h2>
 
                 {status === 'failed' && (
                     <div className="text-red-600 mb-4">Erreur: {error}</div>
@@ -80,6 +98,7 @@ const CreationProject = () => {
                             <input
                                 name="titre"
                                 type="text"
+                                value={formData.titre}
                                 onChange={handleChange}
                                 placeholder="Entrez le nom du projet"
                                 className="w-full border border-gray-300 rounded-lg px-4 py-2.5 focus:ring-2 focus:ring-blue-500 focus:border-blue-500"
@@ -153,7 +172,7 @@ const CreationProject = () => {
                             disabled={status === 'loading'}
                             className="bg-blue-600 text-white px-8 py-3 rounded-lg hover:bg-blue-700 transition-colors duration-200 font-medium disabled:opacity-50"
                         >
-                            {status === 'loading' ? 'Publication...' : 'Publier'}
+                            {status === 'loading' ? 'Chargement...' : 'Mis à jour Projet'}
                         </button>
                     </div>
                 </form>
@@ -162,4 +181,4 @@ const CreationProject = () => {
     );
 };
 
-export default CreationProject;
+export default UpdateProjectClient;

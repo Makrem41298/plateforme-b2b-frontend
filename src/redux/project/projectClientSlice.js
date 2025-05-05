@@ -1,7 +1,6 @@
-import {createAsyncThunk, createSlice, current} from "@reduxjs/toolkit";
+import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
 import { clientApi } from "../../services/api.js";
 
-// Helper function to handle API errors
 const handleApiError = (error, rejectWithValue) => {
     console.error("rejected",error);
     return rejectWithValue(error.response?.data || error.message);
@@ -12,7 +11,6 @@ export const getProjectsClient = createAsyncThunk(
     async (params, { rejectWithValue }) => {
         try {
             const response = await clientApi.getProjets(params);
-            console.log("test");
             return response.data;
         } catch (error) {
             return handleApiError(error, rejectWithValue);
@@ -25,6 +23,7 @@ export const getProjectClient = createAsyncThunk(
     async (slug, { rejectWithValue }) => {
         try {
             const response = await clientApi.getProjet(slug);
+
             return response.data;
         } catch (error) {
             return handleApiError(error, rejectWithValue);
@@ -105,12 +104,10 @@ const projectSlice = createSlice({
             })
             .addCase(getProjectClient.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const existingIndex = state.items.findIndex(p => p.slug === action.payload.slug);
-                if (existingIndex === -1) {
-                    state.items.push(action.payload);
-                } else {
-                    state.items[existingIndex] = action.payload;
-                }
+                state.items=[]
+                state.items.push(action.payload)
+
+
             })
             .addCase(getProjectClient.rejected, (state, action) => {
                 state.status = 'failed';

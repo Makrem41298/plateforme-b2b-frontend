@@ -40,6 +40,7 @@ import LinkVerifedEmail from "../Auth/LinkVerifedEmail.jsx";
 import RouteProtectClient from "./RouteProtectClient.jsx";
 import VerificationEmailEnterprise from "../Auth/Enterprise/VerificationEmailEnterprise.jsx";
 import RouteProtectEnterprise from "./RouteProtectEnterprise.jsx";
+import UpdateProjectClient from "../pages/project/UpdateProjectClient.jsx";
 
 export const AppRoutes = () => {
     let {tokenEnterprise}= useContext(AuthEnterpriseContext);
@@ -88,6 +89,8 @@ export const AppRoutes = () => {
                         <Route path={routes.client.projectDescription} element={<DescriptionProject />} />
                         <Route path={routes.client.conversation} element={<Conversation />} />
                         <Route path={routes.client.createProject} element={<CreationProject />} />
+                        <Route path={`${routes.client.updateProjectClient}/${":slug"}`} element={<UpdateProjectClient />} />
+
                         <Route path={routes.client.profile} element={<EditProfilEntroprise />} />
                         <Route path={routes.client.settings} element={<SettingsPage />} />
                         <Route path={routes.verificationEmailClient.path} element={<VerificationEmailClient />} />
