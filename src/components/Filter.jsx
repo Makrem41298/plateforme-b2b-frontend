@@ -74,8 +74,7 @@ const Filter = ({
                                             {field.placeholder}
                                         </label>
                                         <select
-                                            className={`w-full p-2 border rounded-md ${
-                                                errors[field.id] ? 'border-red-500' : 'border-gray-300'
+                                            className={`w-full p-2 border rounded-md 
                                             }`}
                                             value={`${filters.sort_field}_${filters.sort_order}`}
                                             onChange={(e) => handleSortChange(e.target.value)}
@@ -98,9 +97,8 @@ const Filter = ({
                                     </label>
                                     {field.type === 'select' ? (
                                         <select
-                                            className={`w-full p-2 border rounded-md ${
-                                                errors[field.id] ? 'border-red-500' : 'border-gray-300'
-                                            }`}
+                                            className={`w-full p-2 border rounded-md 
+*                                            `}
                                             value={filters[field.id]}
                                             onChange={(e) => onFilterChange(field.id, e.target.value)}
                                         >
@@ -114,17 +112,14 @@ const Filter = ({
                                     ) : (
                                         <input
                                             type={field.type}
-                                            className={`w-full p-2 border rounded-md ${
-                                                errors[field.id] ? 'border-red-500' : 'border-gray-300'
+                                            className={`w-full p-2 border rounded-md 
                                             }`}
                                             value={filters[field.id]}
                                             onChange={(e) => onFilterChange(field.id, e.target.value)}
                                             placeholder={field.placeholder}
                                         />
                                     )}
-                                    {errors[field.id] && (
-                                        <span className="text-red-500 text-sm">{errors[field.id]}</span>
-                                    )}
+
                                 </div>
                             );
                         })}

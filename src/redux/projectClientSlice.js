@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import { clientApi } from "../../services/api.js";
+import { clientApi } from "../services/api.js";
 
 const handleApiError = (error, rejectWithValue) => {
     console.error("rejected",error);

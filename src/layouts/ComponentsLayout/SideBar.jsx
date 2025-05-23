@@ -16,7 +16,7 @@ export const SideBar = ({authType}) => {
         <div className="w-full md:w-60 bg-white border-r flex flex-col justify-between sideBar">
             <div>
                 <div className="px-6 py-4 text-xl font-bold">
-                    <span className="text-blue-500">Dash</span><span className="text-black">Stack</span>
+                    <span className="text-blue-500">Pro</span><span className="text-black">Linker</span>
                 </div>
 
                 <nav className="mt-6 flex flex-col gap-1 text-sm">

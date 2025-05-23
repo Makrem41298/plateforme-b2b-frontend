@@ -7,7 +7,7 @@ import Dashboard from "../pages/dashboard/Dashboard.jsx";
 import ListProjectEntreprise from "../pages/project/ListProjectEntreprise.jsx";
 import TabContract from "../pages/contract/TabContract.jsx";
 import TabInBox from "../pages/inbox/TabInBox.tsx";
-import TabOffer from "../pages/offer/TabOffer.jsx";
+import ListOfferClient from "../pages/offer/ListOfferClient.jsx";
 import { TabTransaction } from "../pages/transaction/TabTransaction.jsx";
 import { Withdraw } from "../pages/Withdraw/Withdraw.jsx";
 import { DescriptionProject } from "../pages/project/DescriptionProject.jsx";
@@ -41,6 +41,8 @@ import RouteProtectClient from "./RouteProtectClient.jsx";
 import VerificationEmailEnterprise from "../Auth/Enterprise/VerificationEmailEnterprise.jsx";
 import RouteProtectEnterprise from "./RouteProtectEnterprise.jsx";
 import UpdateProjectClient from "../pages/project/UpdateProjectClient.jsx";
+import ListOfferEnterprise from "../pages/offer/ListOfferEnterprise.jsx";
+import {UpdateOffer} from "../pages/offer/UpdateOffer.jsx";
 
 export const AppRoutes = () => {
     let {tokenEnterprise}= useContext(AuthEnterpriseContext);
@@ -58,12 +60,14 @@ export const AppRoutes = () => {
                         <Route path={routes.entreprise.projects} element={<ListProjectEntreprise />} />
                         <Route path={routes.entreprise.contract} element={<TabContract />} />
                         <Route path={routes.entreprise.inbox} element={<TabInBox />} />
-                        <Route path={routes.entreprise.offer} element={<TabOffer />} />
+                        <Route path={routes.entreprise.offer} element={<ListOfferEnterprise />} />
                         <Route path={routes.entreprise.transaction} element={<TabTransaction />} />
                         <Route path={routes.entreprise.withdraw} element={<Withdraw />} />
-                        <Route path={routes.entreprise.projectDescription} element={<DescriptionProject />} />
+                        <Route path={`${routes.entreprise.projectDescription}/${":slug"}`} element={<DescriptionProject />} />
                         <Route path={routes.entreprise.createOffer} element={<CreateOffer />} />
-                        <Route path={routes.entreprise.conversation} element={<Conversation />} />
+                        <Route path={`${routes.entreprise.updateOffer}/${':offerId'}`} element={<UpdateOffer />} />
+
+                        <Route path={`${routes.entreprise.conversation}/${":enterpriseId"}`} element={<Conversation />} />
                         <Route path={routes.entreprise.createContract} element={<CreationContract />} />
                         <Route path={routes.entreprise.profile} element={<EditProfilEntroprise />} />
                         <Route path={routes.entreprise.settings} element={<SettingsPage />} />
@@ -84,10 +88,10 @@ export const AppRoutes = () => {
                         <Route path={routes.client.mesProjects} element={<ListProjectClient  authType="Client" />} />
                         <Route path={routes.client.contract} element={<TabContract />} />
                         <Route path={routes.client.inbox} element={<TabInBox />} />
-                        <Route path={routes.client.offer} element={<TabOffer />} />
+                        <Route path={`${routes.client.offer}/${":slug"}`} element={<ListOfferClient />} />
                         <Route path={routes.client.transaction} element={<TabTransaction />} />
                         <Route path={routes.client.projectDescription} element={<DescriptionProject />} />
-                        <Route path={routes.client.conversation} element={<Conversation />} />
+                        <Route path={`${routes.client.conversation}/${":enterpriseId"}`} element={<Conversation />} />
                         <Route path={routes.client.createProject} element={<CreationProject />} />
                         <Route path={`${routes.client.updateProjectClient}/${":slug"}`} element={<UpdateProjectClient />} />
 

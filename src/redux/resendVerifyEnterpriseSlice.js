@@ -1,5 +1,5 @@
 import {createAsyncThunk, createSlice} from "@reduxjs/toolkit";
-import {entrepriseApi} from "../../services/api.js";
+import {entrepriseApi} from "../services/api.js";
 
 export const resendVerifyEnterprise = createAsyncThunk(
     'enterprise/resendEmailVerify',

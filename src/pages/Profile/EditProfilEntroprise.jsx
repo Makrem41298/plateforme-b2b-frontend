@@ -9,7 +9,7 @@ const EditProfilEntroprise = () => {
             <div className="flex-1 flex items-center justify-center bg-gradient-to-br  ">
                 <div className="bg-white rounded-xl shadow-lg p-8 w-full max-w-2xl mx-4 my-4">
                     <h2 className="text-2xl font-semibold text-center text-gray-800 mb-2">
-                        Créer un Profil d'Entreprise
+                        Mis à jour Profil d'Entreprise
                     </h2>
                     <p className="text-center text-gray-500 mb-6">
                         Veuillez remplir les informations de votre entreprise
@@ -93,21 +93,7 @@ const EditProfilEntroprise = () => {
                                 <input type="url" name="linkedin_url"
                                        className="w-full px-4 py-2 border border-gray-200 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" />
                             </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">URL Facebook</label>
-                                <input type="url" name="facebook_url"
-                                       className="w-full px-4 py-2 border border-gray-200 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">Twitter</label>
-                                <input type="text" name="twitter_handle"
-                                       className="w-full px-4 py-2 border border-gray-200 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                            </div>
-                            <div>
-                                <label className="block text-sm font-medium text-gray-700 mb-1">URL Instagram</label>
-                                <input type="url" name="instagram_url"
-                                       className="w-full px-4 py-2 border border-gray-200 rounded-md bg-gray-100 focus:outline-none focus:ring-2 focus:ring-blue-400" />
-                            </div>
+
                         </div>
 
                         {/* Description */}

@@ -1,13 +1,20 @@
 import { configureStore } from "@reduxjs/toolkit";
 import emailVerificationReducer from "./resendEmailVerifyClientSlice.js";
-import emailVerificationEnterpriseReducer from "./verificationEmail/resendVerifyEnterpriseSlice.js";
-import  projectReduce from "./project/projectClientSlice.js";
+import emailVerificationEnterpriseReducer from "./resendVerifyEnterpriseSlice.js";
+import  projectReduce from "./projectClientSlice.js";
+import offersReducer from "./offerSlice.js";
+import messageReducer from "./messageSlice.js";
+import projectsEnterpriseReducer from "./projectEnterpriseSlice.js";
 
 export const store = configureStore({
     reducer: {
         emailVerification: emailVerificationReducer,
         emailVerificationEnterprise: emailVerificationEnterpriseReducer,
-        projects: projectReduce
+        projects: projectReduce,
+        offers: offersReducer,
+        messages:messageReducer,
+        projectEnterprise:projectsEnterpriseReducer
+
     },
 
 });

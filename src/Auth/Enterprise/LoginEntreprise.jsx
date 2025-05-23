@@ -2,6 +2,10 @@ import React, {useContext, useEffect, useState} from 'react'
 import {Link, useNavigate} from 'react-router-dom';
 import {AuthEnterpriseContext} from "../../services/AuthEnterpriseContext.jsx";
 import {routes} from "../../Routes/routesName.js";
+import Pusher from 'pusher-js'; // Necesario si usas Pusher o como fallback
+import Echo from 'laravel-echo';
+
+
 
 const LoginEnterprise = () => {
     const [credentials, setCredentials] = useState({ email: '', password: '' });
@@ -22,6 +26,22 @@ const LoginEnterprise = () => {
             [e.target.name]: e.target.value
         });
     }
+
+
+
+
+    useEffect(() => {
+        Pusher.logToConsole = true;
+
+        var pusher = new Pusher('c8b2d1f58eac0ada1b53', {
+            cluster: 'eu'
+        });
+
+        var channel = pusher.subscribe('chat');
+        channel.bind('chatMessage', function(data) {
+            alert(JSON.stringify(data));
+        });
+    }, []);
     return (
         <div
             className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-blue-500 overflow-hidden">

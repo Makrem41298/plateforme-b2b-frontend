@@ -8,8 +8,10 @@ import axiosInstanceClient from "./axiosInstanceClient.js";
     createProjet: (data) => axiosInstanceClient.post('/projets', data),
     updateProjet: (slug, data) => axiosInstanceClient.put(`/projets/${slug}`, data),
     deleteProjet: (slug) => axiosInstanceClient.delete(`/projets/${slug}`),
+    //offer
+    getOfferProject:(slugProject,params)=>axiosInstanceClient.get(`/project/offers/${slugProject}`,params),
 
-    // Contrats
+     // Contrats
     getContrats: (params) => axiosInstanceClient.get('/contrats', { params }),
     getContrat: (reference) => axiosInstanceClient.get(`/contrats/${reference}`),
     updateContrat: (reference, data) => axiosInstanceClient.put(`/contrats/${reference}`, data),
@@ -25,7 +27,6 @@ import axiosInstanceClient from "./axiosInstanceClient.js";
     updateProfile: (data) => axiosInstanceClient.put('/client/profile', data),
     changePassword: (data) => axiosInstanceClient.put('/client/change_password', data),
 
-    // Messages
     sendMessage: (data) => axiosInstanceClient.post('/messages', data),
     getMessages: () => axiosInstanceClient.get('/messages'),
     getConversation: (receiverId, receiverType) =>

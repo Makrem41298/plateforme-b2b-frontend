@@ -1,14 +1,15 @@
 import React, {useEffect, useState} from 'react';
-import {useLocation, useNavigate} from "react-router-dom";
+import {useLocation, useNavigate, useParams} from "react-router-dom";
 import { useOffer } from "../../hooks/useReduxHooks.js";
 import Swal from "sweetalert2";
 import {routes} from "../../Routes/routesName.js";
 
-export const CreateOffer = () => {
+export const UpdateOffer = () => {
     const location = useLocation();
-    const { status, createOffer, error } = useOffer();
-    const { projectId,projectTitle } = location.state || {};
+    const { status, updateOffer, error ,getOfferById,offers} = useOffer();
+    const { projectTitle } = location.state || {};
     const  navigator=useNavigate();
+    const {offerId} = useParams();
 
     const [amount, setAmount] = useState('');
     const [delay, setDelay] = useState('');
@@ -19,7 +20,7 @@ export const CreateOffer = () => {
             montant_propose: amount,
             delai: delay,
             description: description,
-            projet_id: projectId,
+
         };
         try {
             e.preventDefault();
@@ -31,11 +32,11 @@ export const CreateOffer = () => {
                     Swal.showLoading();
                 },
             });
-            await createOffer(offerData).unwrap()
+          await  updateOffer(offerId,offerData).unwrap()
             Swal.fire({
                 icon: "success",
                 title: "Succès!",
-                text: "créé un offer avec succès.",
+                text: "Mis à jour le offer avec succès.",
             });
             navigator(routes.entreprise.offer)
 
@@ -43,6 +44,19 @@ export const CreateOffer = () => {
        console.log(e.message);
         }
     };
+    useEffect(() => {
+        const load= async () => {
+            await getOfferById(offerId).unwrap();
+        }
+        load()
+    },[])
+    useEffect(()=>{
+        console.log(offers[0])
+        setAmount(offers['0']?.montant_propose);
+        setDelay(offers['0']?.delai);
+        setDescription(offers['0']?.description);
+    },[offers])
+
 
 
 
@@ -56,7 +70,7 @@ export const CreateOffer = () => {
                             <path strokeLinecap="round" strokeLinejoin="round"
                                   d="M17 9V7a4 4 0 00-8 0v2M5 12h14M12 16v4m0 0H8m4 0h4"/>
                         </svg>
-                        Créer une offre
+                        Update  offre
                     </h2>
                     <p className="text-sm text-gray-500">Projet : <span className="font-medium text-gray-700">{projectTitle}</span></p>
                 </div>

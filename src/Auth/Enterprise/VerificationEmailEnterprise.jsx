@@ -4,7 +4,7 @@ import { useNavigate } from 'react-router-dom';
 import { routes } from "../../Routes/routesName.js";
 import Swal from 'sweetalert2';
 import {AuthEnterpriseContext} from "../../services/AuthEnterpriseContext.jsx";
-import {resendVerifyEnterprise} from "../../redux/verificationEmail/resendVerifyEnterpriseSlice.js";
+import {resendVerifyEnterprise} from "../../redux/resendVerifyEnterpriseSlice.js";
 
 const VerificationEmailEntreprise = () => {
 
