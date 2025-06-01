@@ -31,22 +31,33 @@ export const CreateOffer = () => {
                     Swal.showLoading();
                 },
             });
-            await createOffer(offerData).unwrap()
-            Swal.fire({
+
+            await createOffer(offerData).unwrap();
+
+            await Swal.fire({
                 icon: "success",
-                title: "Succès!",
-                text: "créé un offer avec succès.",
+                title: "Succès !",
+                text: "Offre créée avec succès.",
             });
-            navigator(routes.entreprise.offer)
 
-        } catch (e) {
-       console.log(e.message);
+            // Redirection
+            navigator(routes.entreprise.offer);
+
+        } catch (error) {
+            console.error(error.message);
+
+            Swal.fire({
+                icon: "error",
+                title: "Erreur",
+                text: error.message || "Une erreur est survenue lors de la création de l'offre.",
+            });
         }
-    };
+    }
 
 
 
-    return (
+
+        return (
         <div className="bg-gray-50 min-h-screen p-10">
             <div className="max-w-4xl mx-auto bg-white rounded-xl shadow-sm p-8 space-y-6">
                 <div className="space-y-1">

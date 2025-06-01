@@ -19,6 +19,7 @@ export const getProjectOffersClient = createAsyncThunk(
     'client/project/getOffers',
     async ({slug,params}, { rejectWithValue }) => {
         try {
+
             const response = await clientApi.getOfferProject(slug, params);
             return response.data;
         } catch (error) {
@@ -59,6 +60,18 @@ export const updateOffer = createAsyncThunk(
     async ({ id, data }, { rejectWithValue }) => {
         try {
             const response = await entrepriseApi.updateOffre(id, data);
+            return response.data;
+        } catch (error) {
+            console.error("rejected", error);
+            return rejectWithValue(error.response?.data || error.message);
+        }
+    }
+);
+export const updateOfferClient = createAsyncThunk(
+    'client/updateOffer',
+    async ({ id, data }, { rejectWithValue }) => {
+        try {
+            const response = await clientApi.updateOffre(id, data);
             return response.data;
         } catch (error) {
             console.error("rejected", error);
@@ -162,7 +175,7 @@ const offersSlice = createSlice({
             })
             .addCase(updateOffer.fulfilled, (state, action) => {
                 state.status = 'succeeded';
-                const index = state.items.findIndex(offer => offer.id === action.payload);
+                const index = state.items.findIndex(offer => offer.id === action.payload.id);
                 if (index !== -1) {
                     state.items[index] = action.payload;
                 }
@@ -192,7 +205,23 @@ const offersSlice = createSlice({
             .addCase(deleteOffer.rejected, (state, action) => {
                 state.status = 'failed';
                 state.error = action.payload;
+            })
+            .addCase(updateOfferClient.pending, (state) => {
+                state.status = 'loading';
+                state.error = null;
+            })
+            .addCase(updateOfferClient.fulfilled, (state, action) => {
+                state.status = 'succeeded';
+                const index = state.items.findIndex(offer => offer.id === action.payload.id);
+                if (index !== -1) {
+                    state.items[index] = action.payload;
+                }
+            })
+            .addCase(updateOfferClient.rejected, (state, action) => {
+                state.status = 'failed';
+                state.error = action.payload;
             });
+
     }
 });
 

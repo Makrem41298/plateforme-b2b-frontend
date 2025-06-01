@@ -30,18 +30,7 @@ const LoginEnterprise = () => {
 
 
 
-    useEffect(() => {
-        Pusher.logToConsole = true;
 
-        var pusher = new Pusher('c8b2d1f58eac0ada1b53', {
-            cluster: 'eu'
-        });
-
-        var channel = pusher.subscribe('chat');
-        channel.bind('chatMessage', function(data) {
-            alert(JSON.stringify(data));
-        });
-    }, []);
     return (
         <div
             className="relative min-h-screen flex items-center justify-center bg-gradient-to-br from-green-400 to-blue-500 overflow-hidden">

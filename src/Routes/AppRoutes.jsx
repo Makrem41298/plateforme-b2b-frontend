@@ -43,6 +43,9 @@ import RouteProtectEnterprise from "./RouteProtectEnterprise.jsx";
 import UpdateProjectClient from "../pages/project/UpdateProjectClient.jsx";
 import ListOfferEnterprise from "../pages/offer/ListOfferEnterprise.jsx";
 import {UpdateOffer} from "../pages/offer/UpdateOffer.jsx";
+import ShowContrect from "../pages/contract/ShowContrect.jsx";
+import PaymentSuccess from "../pages/transaction/PaymentSuccess.jsx";
+import PaymentCancel from "../pages/transaction/PaymentCancel.jsx";
 
 export const AppRoutes = () => {
     let {tokenEnterprise}= useContext(AuthEnterpriseContext);
@@ -68,10 +71,11 @@ export const AppRoutes = () => {
                         <Route path={`${routes.entreprise.updateOffer}/${':offerId'}`} element={<UpdateOffer />} />
 
                         <Route path={`${routes.entreprise.conversation}/${":enterpriseId"}`} element={<Conversation />} />
-                        <Route path={routes.entreprise.createContract} element={<CreationContract />} />
+                        <Route path={`${routes.entreprise.createContract}/${':offerId'}`} element={<CreationContract />} />
                         <Route path={routes.entreprise.profile} element={<EditProfilEntroprise />} />
                         <Route path={routes.entreprise.settings} element={<SettingsPage />} />
                         <Route path={routes.verificationEmailEnterprise.path} element={<VerificationEmailEnterprise />} />
+                        <Route path={`${routes.entreprise.showContract}/${':reference'}`} element={<ShowContrect />} />
                     </Route>
                 </Route>
                 <Route element={!tokenEnterprise?<Outlet/>:<Navigate to={routes.entreprise.dashboard} replace />}>
@@ -94,10 +98,14 @@ export const AppRoutes = () => {
                         <Route path={`${routes.client.conversation}/${":enterpriseId"}`} element={<Conversation />} />
                         <Route path={routes.client.createProject} element={<CreationProject />} />
                         <Route path={`${routes.client.updateProjectClient}/${":slug"}`} element={<UpdateProjectClient />} />
+                        <Route path={`${routes.client.showContract}/${':reference'}`} element={<ShowContrect />} />
 
                         <Route path={routes.client.profile} element={<EditProfilEntroprise />} />
                         <Route path={routes.client.settings} element={<SettingsPage />} />
                         <Route path={routes.verificationEmailClient.path} element={<VerificationEmailClient />} />
+                        <Route path="/payment/success" element={<PaymentSuccess />} />
+                        <Route path="/payment/cancel" element={<PaymentCancel />} />
+
 
                     </Route>
                 </Route>

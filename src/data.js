@@ -12,7 +12,7 @@ const sideBar = {
      menuClient:[
         { name: 'Dashboard', icon: 'fas fa-columns w-5 mr-3', link: routes.client.dashboard },
         { name: ' MesProjets', icon: 'fas fa-clipboard-list w-5 mr-3', link:  routes.client.mesProjects },
-         { name: 'Contrats', icon: 'fas fa-briefcase w-5 mr-3', link: routes.entreprise.contract },
+         { name: 'Contrats', icon: 'fas fa-briefcase w-5 mr-3', link: routes.client.contract },
 
          { name: 'Inbox', icon: 'far fa-comment-dots w-5 mr-3', link:  routes.client.inbox },
         { name: 'Transactions', icon: 'fas fa-receipt w-5 mr-3', link:  routes.client.transaction },

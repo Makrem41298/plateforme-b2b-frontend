@@ -9,7 +9,8 @@ import axiosInstanceClient from "./axiosInstanceClient.js";
     updateProjet: (slug, data) => axiosInstanceClient.put(`/projets/${slug}`, data),
     deleteProjet: (slug) => axiosInstanceClient.delete(`/projets/${slug}`),
     //offer
-    getOfferProject:(slugProject,params)=>axiosInstanceClient.get(`/project/offers/${slugProject}`,params),
+    getOfferProject:(slugProject,params)=>axiosInstanceClient.get(`/project/offers/${slugProject}`, {params}),
+     updateOffre: (offreId, data) => axiosInstanceClient.put(`/offres/${offreId}`, data),
 
      // Contrats
     getContrats: (params) => axiosInstanceClient.get('/contrats', { params }),
@@ -32,12 +33,19 @@ import axiosInstanceClient from "./axiosInstanceClient.js";
     getConversation: (receiverId, receiverType) =>
         axiosInstanceClient.get(`/conversation/${receiverId}/${receiverType}`),
     markAsRead: (id) => axiosInstanceClient.put(`/messages/${id}/read`),
+     checkout: (reference)=> axiosInstanceClient.post(`/contracts/${reference}/checkout`),
+     successCheckout: (reference) =>
+         axiosInstanceClient.get(`/paiement/succes/${reference}`),
+
+     cancelCheckout: (reference) =>
+         axiosInstanceClient.get(`/paiement/annulation/${reference}`),
 };
 
 const entrepriseApi = {
     // Projets
     getProjets: (params) => axiosInstanceEnterprise.get('/projets', { params }),
     getProjet: (slug) => axiosInstanceEnterprise.get(`/projets/${slug}`),
+    updateProjet: (slug) => axiosInstanceEnterprise.put(`/projets/${slug}`),
 
     // Offres
     getOffres: (params) => axiosInstanceEnterprise.get('/offres', { params }),

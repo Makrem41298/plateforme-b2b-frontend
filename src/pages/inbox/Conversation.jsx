@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
-import { useMessage } from "../../hooks/useReduxHooks.js";
+import {useMessage, useOffer} from "../../hooks/useReduxHooks.js";
 import Loader from "../../components/Loader.jsx";
 
 const Conversation = () => {
@@ -8,8 +8,14 @@ const Conversation = () => {
     const { enterpriseId } = useParams();
     const location = useLocation();
     const typeAuth = location.state?.typeAuth;
-    const { messages, status, error, getConversationClient, sendMessage, getConversationEnterprise, sendMessageEnterprise } = useMessage();
+    const offerId= location.state?.offer?.id;
+    const statusOffer = location.state?.offer?.statut;
+    const [offerStatus, setOfferStatus] = useState(statusOffer);
 
+
+
+    const { messages, status, error, getConversationClient, sendMessage, getConversationEnterprise, sendMessageEnterprise } = useMessage();
+const {updateOfferClient,status:statutOffer,error:erroOffer}=useOffer()
     const [partnerName, setPartnerName] = useState('');
     const [newMessage, setNewMessage] = useState('');
     const messagesEndRef = useRef(null);
@@ -38,6 +44,9 @@ const Conversation = () => {
         if (enterpriseId && typeAuth) {
             fetchConversation();
         }
+        console.log(statusOffer)
+        console.log(offerId)
+
     }, [enterpriseId, typeAuth]);
 
     const handleContract = () => {
@@ -60,6 +69,7 @@ const Conversation = () => {
 
     };
 
+
     const transformedMessages = messages.map(msg => ({
         sender: msg.sender_type.includes('Entreprise') ? 'entreprise' : 'user',
         text: msg.content,
@@ -72,8 +82,63 @@ const Conversation = () => {
         messagesEndRef.current?.scrollIntoView();
     }, [transformedMessages]);
 
+    const handleAcceptOffer=async () => {
+        await updateOfferClient(offerId, {statut: "acceptee"}).unwrap();
+        setOfferStatus("acceptee")
+    }
+
+
+    const handleRejectOffer=async () => {
+        await updateOfferClient(offerId, {statut: "rejetee"});
+        setOfferStatus("rejetee")
+    }
+
     return (
-        <div className="max-w-4xl mx-auto bg-white shadow rounded-xl mt-6 flex flex-col h-[calc(100vh-160px)]">
+            <div >
+
+
+
+
+                <div className="max-w-4xl mx-auto bg-white shadow rounded-xl mt-6 flex flex-col h-[calc(100vh-160px)]">
+                    {typeAuth === 'entreprise' && offerStatus === 'en_attente' && (
+                        <div>
+                            <div className="max-w-4xl mx-auto px-4">
+                                <div className="flex flex-col items-center space-y-4">
+                                    {/* Question */}
+                                    <p className="text-lg font-semibold text-gray-800 text-center">
+                                        Voulez-vous accepter cette offre ?
+                                    </p>
+
+                                    <div className="flex gap-4 sm:gap-6">
+                                        <button
+                                            type="button"
+                                            onClick={handleAcceptOffer}
+                                            className="flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-green-600 hover:bg-green-700 text-white font-medium rounded-lg shadow-md transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-green-400 focus:ring-offset-2"
+                                            aria-label="Accepter l'offre"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M16.707 5.293a1 1 0 010 1.414l-8 8a1 1 0 01-1.414 0l-4-4a1 1 0 011.414-1.414L8 12.586l7.293-7.293a1 1 0 011.414 0z" clipRule="evenodd" />
+                                            </svg>
+                                            <span>Accepter</span>
+                                        </button>
+
+                                        <button
+                                            type="button"
+                                            onClick={handleRejectOffer}
+                                            className="flex items-center gap-2 px-5 py-2.5 sm:px-6 sm:py-3 bg-red-600 hover:bg-red-700 text-white font-medium rounded-lg shadow-md transition-all duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-400 focus:ring-offset-2"
+                                            aria-label="Refuser l'offre"
+                                        >
+                                            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                                                <path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd" />
+                                            </svg>
+                                            <span>Refuser</span>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+
             <div className="flex justify-between items-center px-6 py-4 border-b">
                 <div className="flex items-center gap-2">
                     <button onClick={() => navigate(-1)} className="text-gray-500 hover:text-gray-700 text-lg">←</button>
@@ -137,6 +202,7 @@ const Conversation = () => {
                 </button>
             </div>
         </div>
+            </div>
     );
 };
 

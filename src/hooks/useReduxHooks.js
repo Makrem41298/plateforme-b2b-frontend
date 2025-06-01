@@ -18,10 +18,20 @@ import {
     createOffer,
     updateOffer,
     deleteOffer,
-    getOfferEnterprise, getAllOffersEnterprise, getProjectOffersClient
+    getOfferEnterprise, getAllOffersEnterprise, getProjectOffersClient, updateOfferClient
 } from "../redux/offerSlice.js";
+//contract
+import {
+    clearContractStatus,
+    createContract,
+    updateContract,
+    getContractEnterprise,
+    getAllContractsEnterprise,
+    getAllContractsClient,
+    getContractClient,
+    updateContractClient
+} from "../redux/contractSlice.js";
 import {getConversationClient, sendMessage,sendMessageEntreprise,getConversationEntreprise} from "../redux/messageSlice.js";
-import {data} from "react-router-dom";
 
 
 export const useProject=()=>{
@@ -73,12 +83,14 @@ export const useOffer = () => {
         createOffer: (data) => dispatch(createOffer(data)),
         updateOffer: (id, data) => dispatch(updateOffer({ id, data })),
         deleteOffer: (id) => dispatch(deleteOffer(id)),
-    };
+        updateOfferClient:(id,data) => dispatch(updateOfferClient({ id, data })),
+
+};
 };
 
-export  const useMessage=()=>{
+export const useMessage=()=>{
     const dispatch = useDispatch();
-       const { items: messages, status, error } = useSelector(state => state.messages);
+    const { items: messages, status, error } = useSelector(state => state.messages);
 
     return {
         messages,
@@ -88,7 +100,29 @@ export  const useMessage=()=>{
         sendMessage:(data)=>dispatch(sendMessage(data)),
         getConversationEnterprise:(receiverId, receiverType)=>dispatch(getConversationEntreprise({receiverId, receiverType})),
         sendMessageEnterprise:(data)=>dispatch(sendMessageEntreprise(data))
+    }
+}
+
+export const useContract = () => {
+    const dispatch = useDispatch();
+    const { items: contracts, status, error } = useSelector(state => state.contracts);
+
+    return {
+        contracts,
+        status,
+        error,
+        clearContractStatus: () => dispatch(clearContractStatus()),
+        getAllContracts: (params) => dispatch(getAllContractsEnterprise(params)),
+        getContractByReference: (reference) => dispatch(getContractEnterprise(reference)),
+        createContract: (data) => dispatch(createContract(data)),
+        updateContract: (reference, data) => dispatch(updateContract({ reference, data })),
+
+
+
+        updateContractClient: (reference, data) => dispatch(updateContractClient({ reference, data })),
+        getContractClientByReference: (reference) => dispatch(getContractClient(reference)),
+        getAllContractsClient: (params) => dispatch(getAllContractsClient(params)),
+
 
     }
-
-    }
+}

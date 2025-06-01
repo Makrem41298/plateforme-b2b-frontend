@@ -1,6 +1,20 @@
-import React from 'react'
+import React, {use, useEffect, useState} from 'react'
+import {clientApi, entrepriseApi} from "../../services/api.js";
 
 export const Withdraw = () => {
+
+    const [solde, setSolde] = useState(0);
+
+
+    useEffect(async () => {
+        try {
+            const response = await entrepriseApi.getProfile()
+            setSolde(response?.data.solde)
+
+        } catch (e) {
+            console.log(e)
+        }
+    },[])
     return (
         <div className="bg-gray-50 min-h-screen flex items-center justify-center p-4">
 
@@ -10,7 +24,7 @@ export const Withdraw = () => {
 
                 <div className="bg-white p-5 rounded-lg shadow-sm">
                     <h2 className="text-gray-700 text-sm mb-2">Solde courant</h2>
-                    <p className="text-2xl font-bold text-green-600">$12,450.00</p>
+                    <p className="text-2xl font-bold text-green-600">€{solde}</p>
                     <p className="text-sm text-gray-400 mt-1">disponibles pour le retrait</p>
                 </div>
 

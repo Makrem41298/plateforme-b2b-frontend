@@ -5,6 +5,7 @@ import  projectReduce from "./projectClientSlice.js";
 import offersReducer from "./offerSlice.js";
 import messageReducer from "./messageSlice.js";
 import projectsEnterpriseReducer from "./projectEnterpriseSlice.js";
+import contractsReducer from "./contractSlice.js";
 
 export const store = configureStore({
     reducer: {
@@ -12,9 +13,9 @@ export const store = configureStore({
         emailVerificationEnterprise: emailVerificationEnterpriseReducer,
         projects: projectReduce,
         offers: offersReducer,
-        messages:messageReducer,
-        projectEnterprise:projectsEnterpriseReducer
-
+        messages: messageReducer,
+        projectEnterprise: projectsEnterpriseReducer,
+        contracts: contractsReducer
     },
 
 });

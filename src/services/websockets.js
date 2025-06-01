@@ -1,11 +1,10 @@
-import Echo from 'laravel-echo';
 
+import { config } from '../../pusherConfig.js';
 import Pusher from 'pusher-js';
-window.Pusher = Pusher;
 
-export const echo=window.Echo = new Echo({
-    broadcaster: 'pusher',
-    key: "c8b2d1f58eac0ada1b53",
-    cluster: "eu",
-    forceTLS: true
+const pusher = new Pusher(config.REACT_APP_PUSHER_CLUSTER, {
+    cluster: config.REACT_APP_PUSHER_CLUSTER,
+    encrypted: true,
 });
+
+export default pusher;

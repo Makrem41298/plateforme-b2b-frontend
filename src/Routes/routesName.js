@@ -7,7 +7,7 @@ export const routes = {
     loginClient: { path: "/login/client", name: "loginClient" },
     createAccountClient: { path: "/client/creation-account", name: "createAccountClient" },
     forgetPasswordClient: { path: "/client/forget-password", name: "forgetPasswordClient" },
-    verificationEmailClient: { path: "client/verification-email", name: "verificationEmailClient" },
+    verificationEmailClient: { path: "/client/verification-email", name: "verificationEmailClient" },
     verificationEmailEnterprise: { path: "/enterprise/verification-email", name: "verificationEmailEnterprise" },
 
     selectUser: { path: "/select-user", name: "selectUser" },
@@ -21,8 +21,9 @@ export const routes = {
         createOffer: "/entreprise/offer/Create-offer",
         updateOffer: "/entreprise/offer/update-offer",
 
-        contract: "entreprise/contract",
+        contract: "/entreprise/contract",
         createContract: "/entreprise/contract/creation",
+        showContract: "/entreprise/contract/show",
         inbox: "entreprise/inbox",
         conversation: "/entreprise/inbox/Conversation",
         offer: "/entreprise/offer",
@@ -42,6 +43,7 @@ export const routes = {
         mesProjects: "/client/mes-projects",
         projectDescription: "projects/description-project",
         contract: "/client/contract",
+        showContract: "/client/contract/show",
         inbox: "/client/inbox",
         conversation: "/client/inbox/Conversation",
         offer: "/client/offer",

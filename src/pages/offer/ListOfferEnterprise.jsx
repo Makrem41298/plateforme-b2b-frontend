@@ -5,6 +5,7 @@ import {useOffer} from "../../hooks/useReduxHooks.js";
 import Filter from "../../components/Filter";
 import {routes} from "../../Routes/routesName.js";
 import {filterOfferConfig, filterOfferGroups} from "../../data.js";
+import {entrepriseApi} from "../../services/api.js";
 
 const ListOfferEnterprise = () => {
     const [filters, setFilters] = useState({
@@ -22,7 +23,7 @@ const ListOfferEnterprise = () => {
         setFilters(prev => ({ ...prev, [filterId]: value }));
 
     };
-    const { getAllOffers, deleteOffer, offers, status, error } = useOffer();
+    const { getAllOffers, deleteOffer, offers, status, error,updateOffer } = useOffer();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
     const statusLabels = {
@@ -45,6 +46,9 @@ const ListOfferEnterprise = () => {
         });
         setSearchQuery('');
     };
+    useEffect(()=>{
+        setFilters(prev => ({ ...prev, projet_titre: searchQuery }));
+    },[searchQuery]);
 
     useEffect(() => {
         for (const key in filters) {
@@ -75,6 +79,7 @@ const ListOfferEnterprise = () => {
 
     const offerColumns = [
         'Client',
+        'Titre de projet ',
         'Montant proposé',
         'Délai',
         'Statut',
@@ -128,9 +133,17 @@ const ListOfferEnterprise = () => {
             state: { projectTitle: offer.projet.titre },
         });
     }
-    const handleCreateContract = () => {
+    const handleCreateContract = (offer) => {
         // Add your contract creation logic here
-        navigate(routes.entreprise.createContract);
+        navigate(`${routes.entreprise.createContract}/${offer.id}`,{
+                state:{projectTitle: offer.projet.titre,
+                        clientName: offer.projet.client.name,
+
+
+                },
+
+            }
+        );
     };
     const handleMessage=(EnterpriseId,typeAuth)=>{
             console.log(EnterpriseId, typeAuth);
@@ -140,6 +153,37 @@ const ListOfferEnterprise = () => {
 
     }
 
+
+    async function handleChangeProjectStatus(offer) {
+        const newStatus = offer.statut === "acceptee" ? "refusée" : "acceptée";
+        const confirmation = await Swal.fire({
+            title: "Êtes-vous sûr ?",
+            text: `Voulez-vous terminer le projet de ${offer.projet.client.name} ?`,
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Oui, changer !",
+        });
+
+        if (confirmation.isConfirmed) {
+            try {
+                await entrepriseApi.updateProjet(offer.projet.slug,{}); // Assure-toi que cette fonction retourne une Promise
+                Swal.fire({
+                    title: "Statut changé !",
+                    text: `Le statut du projet de ${offer.projet.client.name} a été changé.`,
+                    icon: "success",
+                });
+            } catch (error) {
+                Swal.fire({
+                    title: "Erreur",
+                    text: "Une erreur est survenue lors de la mise à jour du projet.",
+                    icon: "error",
+                });
+            }
+        }
+
+    }
 
     return (
         <div className="bg-gray-50 h-screen overflow-y-auto p-10 pb-40 font-sans text-gray-800">
@@ -175,6 +219,8 @@ const ListOfferEnterprise = () => {
                                 {offers?.data?.map((offer) => (
                                     <tr key={offer.id} className="hover:bg-gray-50">
                                         <td className="px-6 py-4 whitespace-nowrap">{offer.projet.client?.name || 'N/A'}</td>
+                                        <td className="px-6 py-4 whitespace-nowrap">{offer.projet?.titre || 'N/A'}</td>
+
                                         <td className="px-6 py-4 whitespace-nowrap">{offer.montant_propose} €</td>
                                         <td className="px-6 py-4 whitespace-nowrap">{offer.delai} jours</td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -271,37 +317,66 @@ const ListOfferEnterprise = () => {
   </span>
                                                     </div>
 
-                                                    {/* Contract Button with Tooltip */}
-                                                    <div className="relative group">
-                                                        <button
-                                                            aria-label="Créer un contrat"
-                                                            className="text-green-600 hover:text-green-700 transition-colors"
-                                                            onClick={handleCreateContract}
-                                                        >
-                                                            <svg
-                                                                className="w-5 h-5"
-                                                                fill="none"
-                                                                stroke="currentColor"
-                                                                strokeWidth={1.5}
-                                                                viewBox="0 0 24 24"
+
+                                                    {offer.projet.status === "publie" && offer.statut === "acceptee" ? (
+                                                        <div className="relative group">
+                                                            <button
+                                                                aria-label="Créer un contrat"
+                                                                className="text-green-600 hover:text-green-700 transition-colors"
+                                                                onClick={() => handleCreateContract(offer)}
                                                             >
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
-                                                                />
-                                                                <path
-                                                                    strokeLinecap="round"
-                                                                    strokeLinejoin="round"
-                                                                    d="M12 6v12m6-6H6"
-                                                                />
-                                                            </svg>
-                                                        </button>
-                                                        <span className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 text-xs text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
-          Créer contrat
-          <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
-        </span>
-                                                    </div>
+                                                                <svg
+                                                                    className="w-5 h-5"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth={1.5}
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M19.5 14.25v-2.625a3.375 3.375 0 00-3.375-3.375h-1.5A1.125 1.125 0 0113.5 7.125v-1.5a3.375 3.375 0 00-3.375-3.375H8.25m3.75 9v6m3-3H9m1.5-12H5.625c-.621 0-1.125.504-1.125 1.125v17.25c0 .621.504 1.125 1.125 1.125h12.75c.621 0 1.125-.504 1.125-1.125V11.25a9 9 0 00-9-9z"
+                                                                    />
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M12 6v12m6-6H6"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 text-xs text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      Créer contrat
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
+    </span>
+                                                        </div>
+                                                    ) :offer.projet.status === "en_cours" ? (
+                                                        <div className="relative group">
+                                                            <button
+                                                                aria-label="Modifier état projet"
+                                                                className="text-blue-600 hover:text-blue-700 transition-colors"
+                                                                onClick={() => handleChangeProjectStatus(offer)}
+                                                            >
+                                                                <svg
+                                                                    className="w-5 h-5"
+                                                                    fill="none"
+                                                                    stroke="currentColor"
+                                                                    strokeWidth={1.5}
+                                                                    viewBox="0 0 24 24"
+                                                                >
+                                                                    <path
+                                                                        strokeLinecap="round"
+                                                                        strokeLinejoin="round"
+                                                                        d="M16.862 3.487a2.25 2.25 0 113.182 3.182L7.5 19.313l-4.5 1.5 1.5-4.5 12.362-12.826z"
+                                                                    />
+                                                                </svg>
+                                                            </button>
+                                                            <span className="absolute top-full left-1/2 -translate-x-1/2 mt-1 px-2 py-1 text-xs text-white bg-gray-800 rounded-md opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      Modifier état
+      <span className="absolute bottom-full left-1/2 -translate-x-1/2 border-4 border-transparent border-t-gray-800"></span>
+    </span>
+                                                        </div>
+                                                    ):<div></div>}
+
                                                 </div>
                                             )}
                                         </td>                                    </tr>

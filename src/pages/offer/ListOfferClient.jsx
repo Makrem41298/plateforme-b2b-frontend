@@ -3,33 +3,34 @@ import { useEffect, useState } from "react";
 import Swal from "sweetalert2";
 import { useOffer } from "../../hooks/useReduxHooks.js";
 import Filter from "../../components/Filter";
-import {routes} from "../../Routes/routesName.js"; // Assurez-vous du bon chemin
+import {routes} from "../../Routes/routesName.js";
+import {filterOfferGroups,filterOfferConfig} from "../../data.js"; // Assurez-vous du bon chemin
 
 const ListOfferClient = () => {
     const { slug } = useParams();
     const [filters, setFilters] = useState({
-        montant_min: '',
+        montant_min: '0',
         montant_max: '',
         statut: '',
-        date_debut: '',
-        date_fin: '',
-        sort_by: '',
+        date_start: new Date().toISOString().split('T')[0],
+        sort_field: '',
         sort_order: '',
+        date_end: '',
         per_page: '10',
-        page: 1, // Ajout de la pagination
     });
     const { getOfferProject, offers, status, error } = useOffer();
     const navigate = useNavigate();
     const [searchQuery, setSearchQuery] = useState('');
 
     const handleFilterChange = (filterId, value) => {
-        setFilters(prev => {
-            const newFilters = { ...prev, [filterId]: value };
-            if (filterId !== 'page') {
-                newFilters.page = 1;
-            }
-            return newFilters;
-        });
+
+        setFilters(prev => ({ ...prev, [filterId]: value }));
+
+    };
+    const statusLabels = {
+        en_attente: "En attente",
+        acceptee: "Accepté",
+        rejetee: "Refusé",
     };
 
     const handleReset = () => {
@@ -37,26 +38,41 @@ const ListOfferClient = () => {
             montant_min: '',
             montant_max: '',
             statut: '',
-            date_debut: '',
-            date_fin: '',
-            sort_by: '',
+            date_start: new Date().toISOString().split('T')[0],
+            sort_field: '',
             sort_order: '',
+            date_end: '',
             per_page: '10',
-            page: 1,
         });
         setSearchQuery('');
     };
+    useEffect(() => {
+        const load=async () => {
+            for (const key in filters) {
+                if (filters[key] === "") {
+                    delete filters[key];
+                }
+            }
+            await getOfferProject(slug, filters).unwrap();
+        }
+          load()
 
+
+    }, [filters]);
+
+    useEffect(()=>{
+        setFilters(prev => ({ ...prev, enterprise_name: searchQuery }));
+    },[searchQuery]);
 
     useEffect(() => {
-        getOfferProject(slug, filters);
+        getOfferProject(slug);
 
     }, []);
 
-    const handleMessage = async (EnterpriseId,typeAuth) => {
+    const handleMessage = async (EnterpriseId,typeAuth,offer) => {
         console.log(EnterpriseId, typeAuth);
         navigate(`${routes.client.conversation}/${EnterpriseId}`, {
-            state: { typeAuth }
+            state: { typeAuth,offer },
         });
 
     };
@@ -78,31 +94,16 @@ const ListOfferClient = () => {
         'Actions'
     ];
 
-    const offerFilterGroups = [
-        {
-            title: 'Filtres principaux',
-            filters: [
-                { id: 'statut', type: 'select', label: 'Statut', options: ['accepte', 'en_attente', 'refuse'] },
-                { id: 'montant_min', type: 'number', label: 'Montant min' },
-                { id: 'montant_max', type: 'number', label: 'Montant max' },
-            ]
-        }
-    ];
 
-    const offerFilterConfig = {
-        sortOptions: [
-            { value: 'created_at', label: 'Date de création' },
-            { value: 'montant_propose', label: 'Montant' }
-        ],
-        perPageOptions: ['10', '25', '50']
-    };
+
+
 
     return (
         <div className="bg-gray-50 h-screen overflow-y-auto p-10 pb-40 font-sans text-gray-800">
             <div className="max-w-7xl mx-auto">
                 <Filter
-                    filterGroups={offerFilterGroups}
-                    filterConfig={offerFilterConfig}
+                    filterGroups={filterOfferGroups}
+                    filterConfig={filterOfferConfig}
                     filters={filters}
                     errors={error}
                     onFilterChange={handleFilterChange}
@@ -139,7 +140,7 @@ const ListOfferClient = () => {
                                                     offer.statut === 'en_attente' ? 'bg-yellow-100 text-yellow-800' :
                                                         'bg-red-100 text-red-800'
                                             }`}>
-                                                {offer.statut}
+                                                {statusLabels[offer.statut]}
                                             </span>
                                         </td>
                                         <td className="px-6 py-4 whitespace-nowrap">
@@ -150,7 +151,7 @@ const ListOfferClient = () => {
                                                 type="button"
                                                 className="text-blue-500 hover:text-blue-700 transition-colors"
                                                 aria-label="Reply"
-                                                onClick={()=>handleMessage(offer.entreprise?.id,"entreprise")
+                                                onClick={()=>handleMessage(offer.entreprise?.id,"entreprise",offer)
 
                                                 }
                                             >
