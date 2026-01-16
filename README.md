@@ -54,43 +54,28 @@ It is a React-based platform connecting **Clients** and **Enterprises** for proj
 
 ### 1. Clone the repository
 ```bash
-git clone <repository-url>
+git clone https://github.com/Makrem41298/plateforme-b2b-frontend.git
 cd plateforme-b2b-frontend
-2. Install dependencies
+### 2. Install dependencies
 bash
-Copy code
 npm install
 # or
 yarn install
-▶️ Running the Application
-Development Mode
+
+## ▶️ Running the Application
+
+### 1. Development Mode
 bash
-Copy code
 npm run dev
 # or
 yarn dev
-The application will run at:
 
-arduino
-Copy code
+### 3. The application will run at:
 http://localhost:5173
-🏗️ Production Build
+
+## 🏗️ Production Build
+
 bash
-Copy code
 npm run build
 # or
 yarn build
-📄 License
-This project is licensed under the MIT License.
-
-markdown
-Copy code
-
-Si tu veux, je peux aussi :
-- ✨ Le **rendre plus professionnel pour GitHub**
-- 🔥 Ajouter des **badges (Vite, React, License, Status)**
-- 📸 Ajouter une section **Screenshots**
-- 🌍 Ajouter une section **Environment Variables (`.env`)**
-
-Dis-moi 👍
-
