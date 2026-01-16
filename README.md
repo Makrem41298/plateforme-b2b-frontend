@@ -56,15 +56,11 @@ It is a React-based platform connecting **Clients** and **Enterprises** for proj
 ```bash
 git clone <repository-url>
 cd plateforme-b2b-frontend
-## ▶️ Running the Application
+### 2. ▶️ Running the Application
 
 ### Development Mode
 ```bash
 npm run dev
 Application runs at:
-
-arduino
 http://localhost:5173
-###Production Build
-```bash
-npm run build
+
