@@ -24,8 +24,8 @@ It is a React-based platform connecting **Clients** and **Enterprises** for proj
 
 ### 🛠 Shared Features
 - Authentication (Login, Register, Forgot Password, Email Verification)
-- Real-time chat using Pusher & WebSockets
-- Real-time notifications (React Toastify, SweetAlert2)
+- Real-time chat using **Pusher & WebSockets**
+- Real-time notifications (**React Toastify**, **SweetAlert2**)
 
 ---
 
@@ -56,11 +56,41 @@ It is a React-based platform connecting **Clients** and **Enterprises** for proj
 ```bash
 git clone <repository-url>
 cd plateforme-b2b-frontend
-### 2. ▶️ Running the Application
-
-### Development Mode
-```bash
+2. Install dependencies
+bash
+Copy code
+npm install
+# or
+yarn install
+▶️ Running the Application
+Development Mode
+bash
+Copy code
 npm run dev
-Application runs at:
+# or
+yarn dev
+The application will run at:
+
+arduino
+Copy code
 http://localhost:5173
+🏗️ Production Build
+bash
+Copy code
+npm run build
+# or
+yarn build
+📄 License
+This project is licensed under the MIT License.
+
+markdown
+Copy code
+
+Si tu veux, je peux aussi :
+- ✨ Le **rendre plus professionnel pour GitHub**
+- 🔥 Ajouter des **badges (Vite, React, License, Status)**
+- 📸 Ajouter une section **Screenshots**
+- 🌍 Ajouter une section **Environment Variables (`.env`)**
+
+Dis-moi 👍
 
